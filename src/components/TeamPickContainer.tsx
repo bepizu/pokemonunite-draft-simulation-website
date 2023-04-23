@@ -30,7 +30,25 @@ const styles: Record<string, CSSProperties> = {
     borderBottomLeftRadius: 17,
     borderBottomRightRadius: 17,
     position: 'absolute'
-  }
+  },
+  selectedBanStyle: {
+    width: 53,
+    height: 53,
+    top: -28,
+    borderColor: '#BE433C',
+    borderWidth: 4,
+    backgroundColor: '#52556750',
+    borderRadius: 8,
+    position: 'absolute',
+  },
+  blueSidePositionBan: {
+    left: 0,
+    float: 'left'
+  },
+  redSidePositionBan: {
+    right: 0,
+    float: 'right'
+  },
 }
 
 export default function TeamPickContainer(props: TeamPickContainerProps) {
@@ -58,6 +76,15 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
+  function getPokemonSelectedImageStyleBan(image: string): CSSProperties {
+    return {
+      backgroundImage: `url('${image}')`,
+      backgroundPosition: 'left',
+      backgroundSize: '100%',
+      backgroundRepeat: 'no-repeat'
+    }
+  }
+
   function getSelectedPickStyle (side: string) {
     return {
       width: 230,
@@ -73,23 +100,11 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
   return (
     <div id={`${side}-team-picks`} style={{ ...styles.teamPickContainer, ...( side === 'blue' ? styles.blueSidePosition : styles.redSidePosition ) }}>
 
-      <div style={getLabelTypeStyle(side)}>BAN</div>
-
       <div
         id={`${side}-team-ban-1`}
-        style={{
-          ...getSelectedPickStyle(side),
-          position: 'relative',
-          ...(
-            team.ban.images ? getPokemonSelectedImageStyle(team.ban.images.main) : {}
-          )
-        }}
+        style={{ ...styles.selectedBanStyle, ...( side === 'blue' ? styles.blueSidePositionBan : styles.redSidePositionBan ), 
+        ...(team.ban.images ? getPokemonSelectedImageStyleBan(team.ban.images.main) : {}) }}
       >
-        {team.ban.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.ban.name}</div>
-          </>
-        )}
       </div>
 
       <div style={{...getLabelTypeStyle(side), marginTop: 30 }}>PICKS</div>
