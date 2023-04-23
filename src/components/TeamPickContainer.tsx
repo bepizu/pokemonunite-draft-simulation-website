@@ -119,11 +119,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           )
         }}
       >
-        {team.pick1.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.pick1.name}</div>
-          </>
-        )}
+        <div style={styles.selectedPickNameStyle}>Trainer {side === 'blue' ? <span>1</span> : <span>6</span>}</div>
       </div>
       <div
         id={`${side}-team-pick-2`}
@@ -135,11 +131,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           )
         }}
       >
-        {team.pick2.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.pick2.name}</div>
-          </>
-        )}
+        <div style={styles.selectedPickNameStyle}>Trainer {side === 'blue' ? <span>2</span> : <span>7</span>}</div>
       </div>
       <div
         id={`${side}-team-pick-3`}
@@ -151,11 +143,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           )
         }}
       >
-        {team.pick3.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.pick3.name}</div>
-          </>
-        )}
+        <div style={styles.selectedPickNameStyle}>Trainer {side === 'blue' ? <span>3</span> : <span>8</span>}</div>
       </div>
       <div
         id={`${side}-team-pick-4`}
@@ -167,11 +155,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           )
         }}
       >
-        {team.pick4.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.pick4.name}</div>
-          </>
-        )}
+        <div style={styles.selectedPickNameStyle}>Trainer {side === 'blue' ? <span>4</span> : <span>9</span>}</div>
       </div>
       <div
         id={`${side}-team-pick-5`}
@@ -183,11 +167,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           )
         }}
       >
-        {team.pick5.name !== undefined && (
-          <>
-            <div style={styles.selectedPickNameStyle}>{team.pick5.name}</div>
-          </>
-        )}
+        <div style={styles.selectedPickNameStyle}>Trainer {side === 'blue' ? <span>5</span> : <span>10</span>}</div>
       </div>
     </div>
   )
