@@ -142,7 +142,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
-  function getSelectedPickTrainer (side: string) {
+  function getSelectedPickTrainer (side: string): CSSProperties {
     return {
       display: 'flex',
       flexDirection: 'column'
