@@ -1,7 +1,12 @@
 {
   "name": "pokemonunite-draft-simulation-website",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
+  "author": {
+    "name": "Rafael Vilarinho Raiol",
+    "email": "rafael.raiol@gmail.com",
+    "url": "https://github.com/rafaelvilarinho"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
