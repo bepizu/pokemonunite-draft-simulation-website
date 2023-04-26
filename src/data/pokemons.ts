@@ -110,7 +110,7 @@ const pokemons: Array<Pokemon> = [
         "https://unite.pokemon.com/images/pokemon/alolan-ninetales/stat/stat-alolan-ninetales.png",
     },
     active: true,
-    battleType: 5,
+    battleType: 1,
     stats: {
       offense: 4,
       endurance: 1.5,
