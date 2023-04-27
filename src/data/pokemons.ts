@@ -603,8 +603,10 @@ const pokemons: Array<Pokemon> = [
     images: {
       main: "https://unite.pokemon.com/images/pokemon/chandelure/roster/roster-chandelure.png",
       big: "https://unite.pokemon.com/images/pokemon/chandelure/roster/roster-chandelure-2x.png",
+      complete:
+        "https://unite.pokemon.com/images/pokemon/chandelure/stat/stat-chandelure.png",
     },
-    active: false,
+    active: true,
   },
   {
     name: "Delphox",
