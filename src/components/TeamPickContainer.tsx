@@ -85,19 +85,6 @@ const styles: Record<string, CSSProperties> = {
 export default function TeamPickContainer(props: TeamPickContainerProps) {
   const { team, side } = props
 
-  function getLabelTypeStyle (side: string): CSSProperties {
-    return {
-      width: '100%',
-      height: 30,
-      lineHeight: 1,
-      paddingTop: 5,
-      paddingBottom: 5,
-      backgroundColor: side,
-      borderRadius: 17,
-      textAlign: "center"
-    }
-  }
-
   function getPokemonSelectedImageStyle(image: string): CSSProperties {
     return {
       backgroundImage: `url('${image}')`,
@@ -107,7 +94,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
-  function selectedPickNameStyle(side: string): CSSProperties {
+  function selectedPickNameStyle(): CSSProperties {
     return {
       width: 150,
       fontWeight: '400',
@@ -120,7 +107,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
-  function getSelectedPickStyle (side: string) {
+  function getSelectedPickStyle(): CSSProperties {
     return {
       width: 240,
       height: 100,
@@ -131,7 +118,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
-  function getSelectedPickFrame (side: string) {
+  function getSelectedPickFrame(): CSSProperties {
     return {
       width: 100,
       height: 100,
@@ -142,7 +129,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
     }
   }
 
-  function getSelectedPickTrainer (side: string): CSSProperties {
+  function getSelectedPickTrainer(): CSSProperties {
     return {
       display: 'flex',
       flexDirection: 'column'
@@ -150,185 +137,57 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
   }
 
   return (
-    <div id={`${side}-team-picks`} style={{ ...styles.teamPickContainer, ...( side === 'blue' ? styles.blueSidePosition : styles.redSidePosition ) }}>
+    <div id={`${side}-team-picks`} style={{ ...styles.teamPickContainer, ...(side === 'blue' ? styles.blueSidePosition : styles.redSidePosition) }}>
 
-{/* BAN AREA */}
-      <div
-        id={`${side}-team-ban-1`}
-        style={{ ...styles.selectedBanStyle, ...( side === 'blue' ? styles.blueSidePositionBan : styles.redSidePositionBan ), 
-        ...(team.ban.images ? getPokemonSelectedImageStyle(team.ban.images.main) : {}) }}
-      >
-      </div>
 
-{/* TEAM PICK 1 */}
-      <div
-        id={`${side}-team-pick-1`}
-        style={{
-          ...getSelectedPickStyle(side),
-          ...( side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks )
-        }}
-      >
+      {[1].map(idx => (
         <div
+          key={idx}
+          id={`${side}-team-ban-1`}
           style={{
-          ...getSelectedPickFrame(side),
-          ...( side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame ),
+            ...styles.selectedBanStyle, ...(side === 'blue' ? styles.blueSidePositionBan : styles.redSidePositionBan),
+            ...(team.ban1.images ? getPokemonSelectedImageStyle(team.ban1.images.main) : {})
+          }}
+        >
+        </div>
+      ))}
+
+      {['pick1', 'pick2', 'pick3', 'pick4', 'pick5'].map((pick, idx) => {
+        const pickSelected = team[pick]
+        console.log({team, pick, pickSelected})
+
+        const sidePositionStyle: CSSProperties = {
+          ...getSelectedPickStyle(),
+          ...(side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks)
+        }
+        const pickFrameStyle: CSSProperties = {
+          ...getSelectedPickFrame(),
+          ...(side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame),
           position: 'relative',
           ...(
-            team.pick1.images ? getPokemonSelectedImageStyle(team.pick1.images.main) : {}
+            pickSelected.images ? getPokemonSelectedImageStyle(pickSelected.images.main) : {}
           )
-        }}></div>
-        <div
-          style={{
-          ...getSelectedPickTrainer(side),
-          ...( side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer )
-        }}>
-          <img src='avatar.png'></img>
-          <div 
-            style={{ 
-            ...selectedPickNameStyle(side), 
-            ...( side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName ) 
-          }}
-          >
-            Trainer {side === 'blue' ? <span>1</span> : <span>6</span>}
-          </div>
-        </div>
-      </div>
+        }
+        const pickTrainerStyle: CSSProperties = {
+          ...getSelectedPickTrainer(),
+          ...(side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer)
+        }
+        const pickNameStyle: CSSProperties = {
+          ...selectedPickNameStyle(),
+          ...(side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName)
+        }
 
-{/* TEAM PICK 2 */}
-      <div
-        id={`${side}-team-pick-2`}
-        style={{
-          ...getSelectedPickStyle(side),
-          ...( side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks )
-        }}
-      >
-        <div
-          style={{
-          ...getSelectedPickFrame(side),
-          ...( side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame ),
-          position: 'relative',
-          ...(
-            team.pick2.images ? getPokemonSelectedImageStyle(team.pick2.images.main) : {}
-          )
-        }}></div>
-        <div
-        style={{
-          ...getSelectedPickTrainer(side),
-          ...( side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer )
-        }}>
-          <img src='avatar.png'></img>
-          <div 
-            style={{ 
-            ...selectedPickNameStyle(side), 
-            ...( side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName ) 
-          }}
-          >
-            Trainer {side === 'blue' ? <span>2</span> : <span>7</span>}
+        return (
+          <div key={idx} id={`${side}-team-pick-${idx}`} style={sidePositionStyle}>
+            <div style={pickFrameStyle}></div>
+            <div style={pickTrainerStyle}>
+              <img src='avatar.png' alt={`${side} pick ${idx}`}></img>
+              <div style={pickNameStyle}>Trainer <span>{idx}</span></div>
+            </div>
           </div>
-        </div>
-      </div>
+        )
+      })}
 
-{/* TEAM PICK 3 */}
-<div
-        id={`${side}-team-pick-3`}
-        style={{
-          ...getSelectedPickStyle(side),
-          ...( side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks )
-        }}
-      >
-        <div
-          style={{
-          ...getSelectedPickFrame(side),
-          ...( side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame ),
-          position: 'relative',
-          ...(
-            team.pick3.images ? getPokemonSelectedImageStyle(team.pick3.images.main) : {}
-          )
-        }}></div>
-        <div
-        style={{
-          ...getSelectedPickTrainer(side),
-          ...( side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer )
-        }}>
-          <img src='avatar.png'></img>
-          <div 
-            style={{ 
-            ...selectedPickNameStyle(side), 
-            ...( side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName ) 
-          }}
-          >
-            Trainer {side === 'blue' ? <span>3</span> : <span>8</span>}
-          </div>
-        </div>
-      </div>
-
-{/* TEAM PICK 4 */}
-<div
-        id={`${side}-team-pick-4`}
-        style={{
-          ...getSelectedPickStyle(side),
-          ...( side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks )
-        }}
-      >
-        <div
-          style={{
-          ...getSelectedPickFrame(side),
-          ...( side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame ),
-          position: 'relative',
-          ...(
-            team.pick4.images ? getPokemonSelectedImageStyle(team.pick4.images.main) : {}
-          )
-        }}></div>
-        <div
-        style={{
-          ...getSelectedPickTrainer(side),
-          ...( side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer )
-        }}>
-          <img src='avatar.png'></img>
-          <div 
-            style={{ 
-            ...selectedPickNameStyle(side), 
-            ...( side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName ) 
-          }}
-          >
-            Trainer {side === 'blue' ? <span>4</span> : <span>9</span>}
-          </div>
-        </div>
-      </div>
-
-{/* TEAM PICK 5 */}
-<div
-        id={`${side}-team-pick-5`}
-        style={{
-          ...getSelectedPickStyle(side),
-          ...( side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks )
-        }}
-      >
-        <div
-          style={{
-          ...getSelectedPickFrame(side),
-          ...( side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame ),
-          position: 'relative',
-          ...(
-            team.pick5.images ? getPokemonSelectedImageStyle(team.pick5.images.main) : {}
-          )
-        }}></div>
-        <div
-        style={{
-          ...getSelectedPickTrainer(side),
-          ...( side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer )
-        }}>
-          <img src='avatar.png'></img>
-          <div 
-            style={{ 
-            ...selectedPickNameStyle(side), 
-            ...( side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName ) 
-          }}
-          >
-            Trainer {side === 'blue' ? <span>5</span> : <span>10</span>}
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

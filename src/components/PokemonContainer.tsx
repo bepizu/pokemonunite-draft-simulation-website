@@ -1,6 +1,7 @@
 import { CSSProperties, useEffect } from 'react'
 import { BattleType, BattleTypeColor, Pokemon } from '@/types/Pokemon'
 import { DraftStatus } from '@/types/DraftStatus'
+import { MAX_HEIGHT_PKMN_BOX, MAX_WIDTH_PKMN_BOX } from '@/constants'
 
 type PokemonContainerProps = {
   pickList: Array<Pokemon>,
@@ -16,9 +17,6 @@ type PokemonContainerProps = {
   setDraftStatus: Function,
   MAX_COUNTDOWN_TIMER: number
 }
-
-const MAX_WIDTH_PKMN_BOX = 100
-const MAX_HEIGHT_PKMN_BOX = 126
 
 const styles: Record<string, CSSProperties> = {
   pickOverlay: {

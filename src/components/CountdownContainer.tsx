@@ -9,10 +9,6 @@ type CountdownContainerProps = {
   setDraftStatus: Function,
 }
 
-const styles: Record<string, CSSProperties> = {
-  // countdownTimerContainer: {}
-}
-
 export default function CountdownContainer (props: CountdownContainerProps) {
   const { countdownTime, currentTeam, draftStatus, setDraftStatus } = props
 

@@ -2,7 +2,7 @@ import { Pokemon } from './Pokemon';
 
 export type Team = {
   teamName: string,
-  ban: Pokemon,
+  ban1: Pokemon,
   pick1: Pokemon,
   pick2: Pokemon,
   pick3: Pokemon,
