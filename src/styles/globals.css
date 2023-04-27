@@ -1,6 +1,6 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -17,7 +17,6 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
   background-image: url('/background.jpg');
 }
 
@@ -25,8 +24,6 @@ body {
 /* Styles for tablet devices */
 @media screen and (min-width: 820px) {
   body {
-    color: rgb(var(--foreground-rgb));
-    background-image: url('/background.jpg');
     background-size: cover;
   }
 }
@@ -34,8 +31,6 @@ body {
 /* Styles for desktop devices */
 @media screen and (min-width: 1024px) {
   body {
-    color: rgb(var(--foreground-rgb));
-    background-image: url('/background.jpg');
     background-size: cover;
   }
 }

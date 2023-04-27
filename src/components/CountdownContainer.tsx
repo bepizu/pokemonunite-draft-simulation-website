@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect } from 'react'
-import { Button } from "@material-tailwind/react";
 import { useRouter } from 'next/router';
+import { Button } from '@mui/material';
 
 type CountdownContainerProps = {
   countdownTime: number,
@@ -49,13 +49,13 @@ export default function CountdownContainer (props: CountdownContainerProps) {
 
       {(draftStatus === 0) && (
         <div>
-          <Button color="green" onClick={() => setDraftStatus(1)}>Start Draft</Button>
+          <Button color="success" onClick={() => setDraftStatus(1)}>Start Draft</Button>
         </div>
       )}
 
       {draftStatus === 3 && (
         <div>
-          <Button color="amber" onClick={() => {
+          <Button color="secondary" onClick={() => {
             router.reload()
           }}>Restart Draft</Button>
         </div>

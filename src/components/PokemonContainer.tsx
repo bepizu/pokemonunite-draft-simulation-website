@@ -140,6 +140,8 @@ export default function PokemonContainer(props: PokemonContainerProps) {
       backgroundRepeat: 'no-repeat',
       borderColor: selectBackgroundPickColor(pokemon.picked),
       borderWidth: 3,
+      width: 100,
+      display: 'inline-flex',
       margin: 5,
       zIndex: 999
     }

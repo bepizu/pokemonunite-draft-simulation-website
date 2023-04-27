@@ -16,15 +16,17 @@
   text-align: center;
 }
 
-.contentContainer p {
-  margin-bottom: 20px;
-}
-
 .contentContainer .buttonContainer {
   display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .contentContainer .buttonContainer .typeTip {
   font-size: 12px;
   margin-top: 5px;
+}
+
+.contentContainer .tournamentContainer {
+
 }
