@@ -1,0 +1,30 @@
+.logo {
+  width: 300px;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.contentContainer {
+  background-color: #fff;
+  width: 300px;
+  color: #000;
+  margin: auto;
+  border-radius: 20px;
+  padding: 30px 40px;
+  text-align: center;
+}
+
+.contentContainer p {
+  margin-bottom: 20px;
+}
+
+.contentContainer .buttonContainer {
+  display: inline-block;
+}
+
+.contentContainer .buttonContainer .typeTip {
+  font-size: 12px;
+  margin-top: 5px;
+}

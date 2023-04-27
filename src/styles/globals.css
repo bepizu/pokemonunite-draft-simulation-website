@@ -18,8 +18,24 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: '#fff';
   background-image: url('/background.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
+}
+
+
+/* Styles for tablet devices */
+@media screen and (min-width: 820px) {
+  body {
+    color: rgb(var(--foreground-rgb));
+    background-image: url('/background.jpg');
+    background-size: cover;
+  }
+}
+
+/* Styles for desktop devices */
+@media screen and (min-width: 1024px) {
+  body {
+    color: rgb(var(--foreground-rgb));
+    background-image: url('/background.jpg');
+    background-size: cover;
+  }
 }
