@@ -607,6 +607,16 @@ const pokemons: Array<Pokemon> = [
         "https://unite.pokemon.com/images/pokemon/chandelure/stat/stat-chandelure.png",
     },
     active: true,
+    battleType: 2,
+    stats: {
+      offense: 5,
+      endurance: 1,
+      mobility: 1,
+      scoring: 2,
+      support: 3,
+    },
+    tags: [Tag.ATTACKER, Tag.RANGED],
+    difficulty: 1,
   },
   {
     name: "Delphox",
