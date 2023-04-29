@@ -9,3 +9,8 @@ export type Team = {
   pick4: Pokemon,
   pick5: Pokemon,
 }
+
+export enum TeamEnum {
+  TEAM1 = "team1",
+  TEAM2 = "team2",
+}

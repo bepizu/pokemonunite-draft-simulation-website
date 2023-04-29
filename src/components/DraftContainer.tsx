@@ -6,6 +6,8 @@ import CountdownContainer from '@/components/CountdownContainer'
 import { DraftStatus } from '@/types/DraftStatus'
 import { MAX_COUNTDOWN_TIMER, PICK_ORDER } from '@/constants'
 import DraftSession from '@/types/DraftSession'
+import { getRequest, putRequest } from '@/utils/requests'
+import { Team } from '@/types/Team'
 
 export enum DraftType {
   INDIVIDUAL = "individual",
@@ -22,37 +24,44 @@ type DraftContainerProps = {
 export default function DraftContainer(props: DraftContainerProps) {
 
   const { type, draftSession: draftSessionBase, selectedTeam } = props
-  const [pickList, _] = useState<Record<string, any>[]>(
-    pokemons
-      .filter(pkmn => pkmn.active)
-      .map(pkmn => ({...pkmn, picked: undefined}))
-  )
-  const [teams, setTeams] = useState<Record<string, any>[]>([
-    {
-      name: 'blueTeam',
-      ban1: {},
-      pick1: {},
-      pick2: {},
-      pick3: {},
-      pick4: {},
-      pick5: {},
-    },
-    {
-      name: 'redTeam',
-      ban1: {},
-      pick1: {},
-      pick2: {},
-      pick3: {},
-      pick4: {},
-      pick5: {},
-    }
-  ])
-  const [pickTurn, setPickTurn] = useState(0)
+  const [pickList, setPickList] = useState<Record<string, any>[]>([])
+  const [draftSession, setDraftSession] = useState<DraftSession | undefined>(draftSessionBase)
+  const [pickTurn, setPickTurn] = useState(draftSession?.pickTurn || 0)
   const [draftStatus, setDraftStatus] = useState<DraftStatus>(DraftStatus.NotStarted) // 0 not-started, 1 started, 2 paused, 3 finished
   const [countdownTime, setCountdownTime] = useState(0)
 
   useEffect(() => {
-    switch(draftStatus) {
+    if (draftSession) {
+      const pickListTemp = pokemons
+        .filter(pkmn => pkmn.active)
+        .map(pick => {
+          Object
+            .keys(draftSession.team1)
+            .filter(key => key !== "name")
+            .forEach(key => {
+              if (draftSession.team1[key].name === pick.name) {
+                pick.picked = "team1"
+              }
+            })
+
+          Object
+            .keys(draftSession.team2)
+            .filter(key => key !== "name")
+            .forEach(key => {
+              if (draftSession.team2[key].name === pick.name) {
+                pick.picked = "team2"
+              }
+            })
+
+          return pick
+        })
+
+      setPickList(pickListTemp)
+    }
+  }, [draftSession])
+
+  useEffect(() => {
+    switch (draftStatus) {
       case DraftStatus.Started:
         setCountdownTime(MAX_COUNTDOWN_TIMER)
         break
@@ -60,49 +69,71 @@ export default function DraftContainer(props: DraftContainerProps) {
     }
   }, [draftStatus]);
 
-  function selectPick (pokemon: any) {
-    const currentPickTurn = PICK_ORDER[pickTurn]
-    const teamsTemp = teams
+  async function saveCurrentDraftSession() {
+    try {
+      if (draftSession) {
+        let draftSessionTemp: Record<string, any> = {}
 
-    for (let i = 0; i < currentPickTurn.picks.length; i++) {
-      const pick = currentPickTurn.picks[i]
+        Object.keys(draftSession).filter(key => key != "_id").forEach(key => draftSessionTemp[key] = draftSession[key])
 
-      if (teams[currentPickTurn.team][pick].name === undefined) {
-        teams[currentPickTurn.team] = {
-          ...teams[currentPickTurn.team],
-          [pick]: pokemon
-        }
-
-        const selectedPokemon = pickList.find(pkmn => pkmn.name === pokemon.name)
-        selectedPokemon && (selectedPokemon.picked = currentPickTurn.team)
-
-        break;
+        await putRequest(`/api/draft/${draftSession._id}`, draftSessionTemp)
       }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function selectPick(pokemon: any) {
+    const currentPickTurn = PICK_ORDER[pickTurn]
+
+    if (!draftSession || currentPickTurn.team !== `team${selectedTeam as number + 1}`) {
+      return
+    } else {
+      for (let i = 0; i < currentPickTurn.picks.length; i++) {
+        const pick = currentPickTurn.picks[i]
+
+        if (draftSession[currentPickTurn.team][pick].name === undefined) {
+          draftSession[currentPickTurn.team] = {
+            ...draftSession[currentPickTurn.team],
+            [pick]: pokemon
+          }
+
+          const selectedPokemon = pickList.find(pkmn => pkmn.name === pokemon.name)
+          selectedPokemon && (selectedPokemon.picked = currentPickTurn.team)
+
+          // setDraftSession([...teamsTemp])
+
+          break;
+        }
+      }
+
+      const finishTurn = currentPickTurn.picks.every(pick => draftSession[currentPickTurn.team][pick].name !== undefined)
+
+      if (finishTurn) {
+        const nextPickTurn = pickTurn + 1
+
+        if (nextPickTurn < PICK_ORDER.length) {
+          setPickTurn(nextPickTurn)
+          draftSession.pickTurn = nextPickTurn
+        }
+      }
+
+      await saveCurrentDraftSession()
     }
 
-    setTeams([...teamsTemp])
-
-    const finishTurn = currentPickTurn.picks.every(pick => teams[currentPickTurn.team][pick].name !== undefined)
-
-    if (finishTurn) {
-      const nextPickTurn = pickTurn + 1
-
-      if (nextPickTurn < PICK_ORDER.length) {
-        setPickTurn(nextPickTurn)
-      }
-    } 
   }
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
 
-      <CountdownContainer 
-        currentTeam={PICK_ORDER[pickTurn].team === 0 ? 'azul' : 'vermelho'}
+      <CountdownContainer
+        currentTeam={PICK_ORDER[pickTurn].team === 'team1' ? 'azul' : 'vermelho'}
         draftStatus={draftStatus}
         setDraftStatus={setDraftStatus}
         countdownTime={countdownTime} />
 
-      {teams.map((team, idx) => <TeamPickContainer key={idx} team={team} side={idx === 0 ? "blue" : "red"} />)}
+      {draftSession?.team1 && <TeamPickContainer team={draftSession.team1} side={"blue"} />}
+      {draftSession?.team2 && <TeamPickContainer team={draftSession.team2} side={"red"} />}
 
       <PokemonContainer
         pickList={pickList}
@@ -113,8 +144,8 @@ export default function DraftContainer(props: DraftContainerProps) {
         draftStatus={draftStatus}
         setDraftStatus={setDraftStatus}
         setCountdownTime={setCountdownTime}
-        />
-      
+      />
+
     </div>
   )
 }

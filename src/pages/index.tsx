@@ -34,7 +34,8 @@ export default function Home() {
     },
     spectator: {
       active: false
-    }
+    },
+    pickTurn: 0
   })
 
   async function createSession() {

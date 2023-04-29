@@ -1,7 +1,7 @@
 import environment from '@/config/environment'
 import { MongoClient, ObjectId, WithId } from 'mongodb'
 
-export type IndexType = ObjectId
+export const IndexType = ObjectId
 
 const mongoDbUri = environment.MONGODB_URI
 const mongoDbClient = new MongoClient(mongoDbUri)
@@ -36,7 +36,7 @@ export async function findOne<T>(collection: string, query: Record<string, unkno
       .db(MONGODB_DATABASE)
       .collection(collection)
       .findOne<T>(query, options)
-
+      
     return data
   } catch (error) {
     console.error('', error)
@@ -78,7 +78,7 @@ export async function update(
     const data = await mongoDbClient
       .db(MONGODB_DATABASE)
       .collection(collection)
-      .updateOne(filter, document)
+      .updateOne(filter, {"$set": document})
 
     return data.modifiedCount > 0
   } catch (error) {

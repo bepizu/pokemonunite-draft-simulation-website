@@ -1,11 +1,16 @@
-type HTTPResponse = {
+export type HTTPOkResponse<T> = {
   result: boolean,
-  data?: Record<string, unknown>,
+  data?: T,
+  message?: string
+}
+
+export type HTTPErrorResponse = {
+  result: boolean,
   error?: Error,
   message?: string
 }
 
-export function OK(data?: Record<string, unknown>, message?: string): HTTPResponse {
+export function OKResponse<T>(data?: T, message?: string): HTTPOkResponse<T> {
   return {
     result: true,
     data,
@@ -13,12 +18,10 @@ export function OK(data?: Record<string, unknown>, message?: string): HTTPRespon
   }
 }
 
-export function Error(error: Error): HTTPResponse {
+export function ErrorResponse<T>(error: Error): HTTPErrorResponse {
   return {
     result: false,
     error,
     message: error.message
   }
 }
-
-export default HTTPResponse

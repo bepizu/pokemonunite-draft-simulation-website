@@ -2,12 +2,13 @@ import { CSSProperties, useEffect } from 'react'
 import { BattleType, BattleTypeColor, Pokemon } from '@/types/Pokemon'
 import { DraftStatus } from '@/types/DraftStatus'
 import { MAX_HEIGHT_PKMN_BOX, MAX_WIDTH_PKMN_BOX } from '@/constants'
+import { TeamEnum } from '@/types/Team'
 
 type PokemonContainerProps = {
   pickList: Array<Pokemon>,
   pickTurn: {
     turn: number,
-    team: number,
+    team: TeamEnum,
     picks: string[],
   },
   selectPick: Function,
@@ -64,12 +65,12 @@ export default function PokemonContainer(props: PokemonContainerProps) {
     return () => clearInterval(intervalCd)
   }, [countdownTime])
 
-  function selectBackgroundPickColor(picked: number) {
+  function selectBackgroundPickColor(picked: string) {
     switch (picked) {
-      case 0:
+      case TeamEnum.TEAM1:
         return '#4A1885'
 
-      case 1:
+      case TeamEnum.TEAM2:
         return '#AF4417'
 
       default:
@@ -77,12 +78,12 @@ export default function PokemonContainer(props: PokemonContainerProps) {
     }
   }
 
-  function selectBackgroundPickOpacity(picked: number) {
+  function selectBackgroundPickOpacity(picked: string) {
     switch (picked) {
-      case 0:
+      case TeamEnum.TEAM1:
         return 0.5
 
-      case 1:
+      case TeamEnum.TEAM2:
         return 0.5
 
       default:

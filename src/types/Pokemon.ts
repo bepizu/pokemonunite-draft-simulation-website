@@ -6,7 +6,7 @@ export type Pokemon = {
     complete?: string;
   };
   active?: boolean;
-  picked?: number;
+  picked?: string;
   stats?: {
     offense: number;
     endurance: number;
