@@ -1,7 +1,7 @@
 import { Pokemon } from './Pokemon';
 
 export type Team = {
-  teamName: string,
+  name: string,
   ban1: Pokemon,
   pick1: Pokemon,
   pick2: Pokemon,

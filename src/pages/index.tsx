@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Modal from '@/components/Modal'
 import { Button, Checkbox, Input, Typography } from '@material-tailwind/react'
+import DraftSession from '@/types/DraftSession'
+import { postRequest } from '@/utils/requests'
 
 export default function Home() {
 
@@ -10,12 +12,10 @@ export default function Home() {
 
   const [showTournamentInfo, setShowTournamentInfo] = useState(false)
   const [showTournamentModal, setShowTournamentModal] = useState(false)
-  const [sessionDraftInfo, setSessionDraftInfo] = useState({
-    _id: "123",
+  const [sessionDraftInfo, setSessionDraftInfo] = useState<DraftSession>({
     lobbyId: "92374923",
     team1: {
       name: "Hisui Ark9",
-      sessionUrl: "http://localhost:3000/draft/23409flksjf23?type=0",
       ban1: {},
       pick1: {},
       pick2: {},
@@ -25,7 +25,6 @@ export default function Home() {
     },
     team2: {
       name: "Ark9 Kids",
-      sessionUrl: "http://localhost:3000/draft/23409flksjf23?type=1",
       ban1: {},
       pick1: {},
       pick2: {},
@@ -34,10 +33,23 @@ export default function Home() {
       pick5: {},
     },
     spectator: {
-      active: false,
-      sessionUrl: "http://localhost:3000/draft/23409flksjf23?type=2"
+      active: false
     }
   })
+
+  async function createSession() {
+    if (!sessionDraftInfo._id) {
+      const createSessionResponse = await postRequest<{_id: string}>("/api/draft", sessionDraftInfo)
+      
+      if (createSessionResponse?._id) {
+        setSessionDraftInfo({...sessionDraftInfo, _id: createSessionResponse._id})
+      } else {
+        console.error("OPS")
+      }
+    }
+
+    setShowTournamentModal(!showTournamentModal)
+  }
 
   return (
     <>
@@ -53,7 +65,7 @@ export default function Home() {
         <hr />
 
         <div className={styles.buttonContainer}>
-          <Button color='blue' onClick={() => setShowTournamentInfo(!showTournamentInfo)}>Scrim / Torneio</Button>
+          <Button color='blue' onClick={() => setShowTournamentInfo(!showTournamentInfo)}>Professional</Button>
           <p className={styles.typeTip}>Perfeito para Scrims e Torneios</p>
         </div>
 
@@ -95,7 +107,7 @@ export default function Home() {
               onChange={() => setSessionDraftInfo({...sessionDraftInfo, spectator: { ...sessionDraftInfo.spectator, active: !sessionDraftInfo.spectator.active }})}
               containerProps={{ className: "-ml-2.5" }}
             />
-            <Button color='light-green' className="mt-6" onClick={() => setShowTournamentModal(!showTournamentModal)} fullWidth>
+            <Button color='light-green' className="mt-6" onClick={createSession} fullWidth>
               Criar Sessão
             </Button>
 
@@ -104,15 +116,15 @@ export default function Home() {
               toogleModal={() => setShowTournamentModal(!showTournamentModal)} 
               header={"Informações de Draft"}>
                 <p>
-                  <div><strong>Draft do Time 1:</strong> <a href={sessionDraftInfo.team1.sessionUrl} target='_blank'>Clique aqui</a></div>
+                  <strong>Draft do Time 1:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=0`} target='_blank'>Clique aqui</a>
                 </p>
                 <p>
-                  <div><strong>Draft do Time 2:</strong> <a href={sessionDraftInfo.team2.sessionUrl} target='_blank'>Clique aqui</a></div>
+                  <strong>Draft do Time 2:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=1`} target='_blank'>Clique aqui</a>
                 </p>
                 {
                   sessionDraftInfo.spectator.active && (
                     <p>
-                      <div><strong>Espectador:</strong> <a href={sessionDraftInfo.spectator.sessionUrl} target='_blank'>Clique aqui</a></div>
+                      <strong>Espectador:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=2`} target='_blank'>Clique aqui</a>
                     </p>
                   )
                 }

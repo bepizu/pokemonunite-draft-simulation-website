@@ -5,8 +5,23 @@ import PokemonContainer from '@/components/PokemonContainer'
 import CountdownContainer from '@/components/CountdownContainer'
 import { DraftStatus } from '@/types/DraftStatus'
 import { MAX_COUNTDOWN_TIMER, PICK_ORDER } from '@/constants'
+import DraftSession from '@/types/DraftSession'
 
-export default function DraftContainer() {
+export enum DraftType {
+  INDIVIDUAL = "individual",
+  PROFESSIONAL = "professional",
+  SPECTATOR = "spectator"
+}
+
+type DraftContainerProps = {
+  type: DraftType,
+  selectedTeam?: number,
+  draftSession?: DraftSession
+}
+
+export default function DraftContainer(props: DraftContainerProps) {
+
+  const { type, draftSession: draftSessionBase, selectedTeam } = props
   const [pickList, _] = useState<Record<string, any>[]>(
     pokemons
       .filter(pkmn => pkmn.active)
@@ -14,7 +29,7 @@ export default function DraftContainer() {
   )
   const [teams, setTeams] = useState<Record<string, any>[]>([
     {
-      teamName: 'blueTeam',
+      name: 'blueTeam',
       ban1: {},
       pick1: {},
       pick2: {},
@@ -23,7 +38,7 @@ export default function DraftContainer() {
       pick5: {},
     },
     {
-      teamName: 'redTeam',
+      name: 'redTeam',
       ban1: {},
       pick1: {},
       pick2: {},

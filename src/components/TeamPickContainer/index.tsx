@@ -29,7 +29,6 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
 
       {['pick1', 'pick2', 'pick3', 'pick4', 'pick5'].map((pick, idx) => {
         const pickSelected = team[pick]
-        console.log({team, pick, pickSelected})
 
         const sidePositionStyle: CSSProperties = {
           ...getSelectedPickStyle(),
@@ -56,7 +55,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           <div key={idx} id={`${side}-team-pick-${idx}`} style={sidePositionStyle}>
             <div style={pickFrameStyle}></div>
             <div style={pickTrainerStyle}>
-              <img src='avatar.png' alt={`${side} pick ${idx}`}></img>
+              <img src='/avatar.png' alt={`${side} pick ${idx}`}></img>
               <div style={pickNameStyle}>Trainer <span>{idx}</span></div>
             </div>
           </div>
