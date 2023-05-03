@@ -18,12 +18,13 @@ export enum DraftType {
 type DraftContainerProps = {
   type: DraftType,
   selectedTeam?: number,
-  draftSession?: DraftSession
+  draftSession?: DraftSession,
+  selectPick?: Function
 }
 
 export default function DraftContainer(props: DraftContainerProps) {
 
-  const { type, draftSession: draftSessionBase, selectedTeam } = props
+  const { type, draftSession: draftSessionBase, selectedTeam, selectPick: selectPickSocket } = props
   const [pickList, setPickList] = useState<Record<string, any>[]>([])
   const [draftSession, setDraftSession] = useState<DraftSession | undefined>(draftSessionBase)
   const [pickTurn, setPickTurn] = useState(draftSession?.pickTurn || 0)
@@ -101,7 +102,7 @@ export default function DraftContainer(props: DraftContainerProps) {
           const selectedPokemon = pickList.find(pkmn => pkmn.name === pokemon.name)
           selectedPokemon && (selectedPokemon.picked = currentPickTurn.team)
 
-          // setDraftSession([...teamsTemp])
+          selectPickSocket && selectPickSocket()
 
           break;
         }
