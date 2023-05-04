@@ -6,8 +6,7 @@ import CountdownContainer from '@/components/CountdownContainer'
 import { DraftStatus } from '@/types/DraftStatus'
 import { MAX_COUNTDOWN_TIMER, PICK_ORDER } from '@/constants'
 import DraftSession from '@/types/DraftSession'
-import { getRequest, putRequest } from '@/utils/requests'
-import { Team } from '@/types/Team'
+import { putRequest } from '@/utils/requests'
 
 export enum DraftType {
   INDIVIDUAL = "individual",

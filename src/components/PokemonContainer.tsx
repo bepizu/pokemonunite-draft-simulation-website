@@ -63,7 +63,7 @@ export default function PokemonContainer(props: PokemonContainerProps) {
     }, 1000)
 
     return () => clearInterval(intervalCd)
-  }, [countdownTime])
+  })
 
   function selectBackgroundPickColor(picked: string) {
     switch (picked) {
@@ -102,7 +102,6 @@ export default function PokemonContainer(props: PokemonContainerProps) {
       width: MAX_WIDTH_PKMN_BOX,
       height: MAX_HEIGHT_PKMN_BOX,
       opacity: selectBackgroundPickOpacity(pokemon.picked),
-      zIndex: 9999
     }
   }
 
@@ -141,7 +140,6 @@ export default function PokemonContainer(props: PokemonContainerProps) {
       backgroundRepeat: 'no-repeat',
       borderColor: selectBackgroundPickColor(pokemon.picked),
       borderWidth: 3,
-      width: 100,
       display: 'inline-flex',
       margin: 5,
       zIndex: 999
@@ -152,9 +150,13 @@ export default function PokemonContainer(props: PokemonContainerProps) {
     return {
       width: MAX_WIDTH_PKMN_BOX,
       fontSize: 13,
+      fontFamily: 'Exo',
       paddingTop: 4,
       paddingBottom: 4,
-      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      letterSpacing: '.5px',
+      fontStyle: 'italic',
+      fontWeight: '900',
       borderInlineWidth: 3,
       borderInlineColor: selectBackgroundPickColor(pokemon.picked),
       backgroundColor: selectBackgroundPickColor(pokemon.picked),
@@ -168,7 +170,7 @@ export default function PokemonContainer(props: PokemonContainerProps) {
 
   return (
     <>
-      <div id='pokemon-list-select' className="flex flex-wrap" style={{ width: 813, margin: 'auto' }}>
+      <div id='pokemon-list-select' className="flex flex-wrap" style={{ width: 813, margin: 'auto', marginTop: '64px', }}>
         {pickList.map((pokemon, key) => (
           <div
             onClick={pokemon.picked !== undefined ? () => { } : () => {
@@ -182,7 +184,7 @@ export default function PokemonContainer(props: PokemonContainerProps) {
             }} key={key} style={getPickButtonStyle(pokemon)}>
             {pokemon.picked !== undefined ? <div style={styles.pickOverlay}></div> : <></>}
             <div style={getPokemonName(pokemon)}>{pokemon.name}</div>
-            <div style={getPokemonImageStyle(pokemon)} />
+            <div className="transform transition-all duration-300 hover:scale-110" style={getPokemonImageStyle(pokemon)} />
           </div>
         ))}
       </div>

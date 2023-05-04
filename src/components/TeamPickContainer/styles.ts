@@ -53,11 +53,11 @@ export function getSelectedPickTrainer(): CSSProperties {
 
 const styles: Record<string, CSSProperties> = {
   blueSidePosition: {
-    top: 90,
+    top: 140,
     left: 60
   },
   redSidePosition: {
-    top: 90,
+    top: 140,
     right: 60
   },
   teamPickContainer: {
@@ -69,7 +69,7 @@ const styles: Record<string, CSSProperties> = {
   selectedBanStyle: {
     width: 53,
     height: 53,
-    top: -70,
+    top: -85,
     borderColor: '#BE433C',
     borderWidth: 4,
     backgroundColor: '#52556750',

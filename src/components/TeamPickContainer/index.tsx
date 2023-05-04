@@ -1,19 +1,28 @@
 import { CSSProperties } from 'react'
 import styles, { getPokemonSelectedImageStyle, getSelectedPickFrame, getSelectedPickStyle, getSelectedPickTrainer, selectedPickNameStyle } from './styles'
+import Image from 'next/image'
 
 type TeamPickContainerProps = {
   team: any,
   side: string,
 }
 
+function Avatar() {
+  return (
+    <Image
+      src="/avatar.png"
+      alt="Avatar image"
+      width={86}
+      height={86}
+    />
+  )
+}
+
 export default function TeamPickContainer(props: TeamPickContainerProps) {
   const { team, side } = props
 
-  
-
   return (
     <div id={`${side}-team-picks`} style={{ ...styles.teamPickContainer, ...(side === 'blue' ? styles.blueSidePosition : styles.redSidePosition) }}>
-
 
       {[1].map(idx => (
         <div
@@ -55,7 +64,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           <div key={idx} id={`${side}-team-pick-${idx}`} style={sidePositionStyle}>
             <div style={pickFrameStyle}></div>
             <div style={pickTrainerStyle}>
-              <img src='/avatar.png' alt={`${side} pick ${idx}`}></img>
+              <Avatar />
               <div style={pickNameStyle}>Trainer <span>{idx}</span></div>
             </div>
           </div>

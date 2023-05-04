@@ -607,7 +607,7 @@ const pokemons: Array<Pokemon> = [
         "https://unite.pokemon.com/images/pokemon/chandelure/stat/stat-chandelure.png",
     },
     active: true,
-    battleType: 2,
+    battleType: 1,
     stats: {
       offense: 5,
       endurance: 1,
