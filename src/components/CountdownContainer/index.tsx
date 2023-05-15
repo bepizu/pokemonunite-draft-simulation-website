@@ -9,15 +9,17 @@ import { selectCountdownState, setCountdownState } from '@/store/countdownSlice'
 import { DraftStatus } from '@/types/DraftStatus';
 import { DraftType } from '../DraftContainer';
 import { getCountdownTimeContainer, styles } from './styles'
+import PickTurn from '@/types/PickTurn';
 
 type CountdownContainerProps = {
+  pickTurn: PickTurn,
   currentTeam: string,
   connectedTeam?: TeamEnum,
   draftType: DraftType
 }
 
 export default function CountdownContainer (props: CountdownContainerProps) {
-  const { currentTeam, connectedTeam, draftType } = props
+  const { pickTurn, currentTeam, connectedTeam, draftType } = props
   const draftSessionState = useSelector(selectDraftSessionState);
   const countdownState = useSelector(selectCountdownState);
 
@@ -45,7 +47,7 @@ export default function CountdownContainer (props: CountdownContainerProps) {
   }
 
   return (countdownState) ? (
-    <div id='countdown-timer-container' style={getCountdownTimeContainer(currentTeam)}>
+    <div id='countdown-timer-container' style={getCountdownTimeContainer(pickTurn)}>
 
       {(countdownState.draftStatus === DraftStatus.NotStarted) && (
         <div>

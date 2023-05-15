@@ -5,6 +5,8 @@ import { PICK_ORDER } from '@/constants'
 import { selectDraftSessionState } from "@/store/draftSessionSlice";
 import { useSelector } from "react-redux";
 import { TeamEnum } from '@/types/Team'
+import { useEffect, useState } from 'react';
+import DraftSession from '@/types/DraftSession';
 
 export enum DraftType {
   INDIVIDUAL = "individual",
@@ -21,17 +23,25 @@ export default function DraftContainer(props: DraftContainerProps) {
 
   const { type, selectedTeam } = props
   const draftSessionState = useSelector(selectDraftSessionState);
+  const [draftSession, setDraftSession] = useState<DraftSession | undefined>()
 
-  return (draftSessionState) ? (
+  useEffect(()=>{
+    if (draftSessionState) {
+      setDraftSession(draftSessionState)
+    }
+  }, [draftSessionState])
+
+  return (draftSession) ? (
     <div style={{ position: 'relative' }}>
 
       <CountdownContainer
-        currentTeam={PICK_ORDER[draftSessionState.pickTurn].team === TeamEnum.TEAM1 ? draftSessionState.team1.name : draftSessionState.team2.name}
+        pickTurn={PICK_ORDER[draftSession.pickTurn]}
+        currentTeam={PICK_ORDER[draftSession.pickTurn].team === TeamEnum.TEAM1 ? draftSession.team1.name : draftSession.team2.name}
         connectedTeam={selectedTeam} 
         draftType={type} />
 
-      {draftSessionState.team1 && <TeamPickContainer team={draftSessionState.team1} side={"blue"} />}
-      {draftSessionState.team2 && <TeamPickContainer team={draftSessionState.team2} side={"red"} />}
+      {draftSession.team1 && <TeamPickContainer team={draftSession.team1} side={"blue"} />}
+      {draftSession.team2 && <TeamPickContainer team={draftSession.team2} side={"red"} />}
 
       <PokemonContainer selectedTeam={selectedTeam} />
 

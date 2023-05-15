@@ -2,10 +2,9 @@ import styles from "../styles/Home.module.css"
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Modal from '@/components/Modal'
-import { Button, Checkbox, Input, Typography } from '@material-tailwind/react'
+import { Button, Input } from '@material-tailwind/react'
 import DraftSession from '@/types/DraftSession'
 import { postRequest } from '@/utils/requests'
-import { Pokemon } from '@/types/Pokemon'
 import { DraftType } from '@/components/DraftContainer'
 import environment from '@/config/environment'
 
@@ -18,7 +17,7 @@ export default function Home() {
   const [sessionDraftInfo, setSessionDraftInfo] = useState<DraftSession>({
     lobbyId: "92374923",
     team1: {
-      name: "Hisui Ark9",
+      name: "Team 1",
       ban1: {},
       pick1: {},
       pick2: {},
@@ -27,7 +26,7 @@ export default function Home() {
       pick5: {},
     },
     team2: {
-      name: "Ark9 Kids",
+      name: "Team 2",
       ban1: {},
       pick1: {},
       pick2: {},

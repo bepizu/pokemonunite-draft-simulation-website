@@ -1,3 +1,5 @@
+import PickTurn from '@/types/PickTurn';
+import { TeamEnum } from '@/types/Team';
 import { CSSProperties } from 'react';
 
 export const styles: Record<string, CSSProperties> = {
@@ -33,15 +35,15 @@ export const styles: Record<string, CSSProperties> = {
   }
 }
 
-export function getCountdownTimeContainer (currentTeam: string): CSSProperties {
+export function getCountdownTimeContainer (pickTurn: PickTurn): CSSProperties {
   let colorSelected = '#fff'
 
-  switch (currentTeam) {
-    case 'roxo':
+  switch (pickTurn.team) {
+    case TeamEnum.TEAM1:
       colorSelected = '#42287F'
       break
 
-    case 'laranja':
+    case TeamEnum.TEAM2:
       colorSelected = '#FB7823'
       break
   }
