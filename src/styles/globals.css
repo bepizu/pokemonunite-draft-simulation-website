@@ -16,21 +16,14 @@
   }
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background-image: url('/background.jpg');
-}
-
-
-/* Styles for tablet devices */
-@media screen and (min-width: 820px) {
-  body {
-    background-size: cover;
-  }
-}
-
-/* Styles for desktop devices */
-@media screen and (min-width: 1024px) {
-  body {
-    background-size: cover;
-  }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
 }
