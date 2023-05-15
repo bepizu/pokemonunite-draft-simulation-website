@@ -2,7 +2,7 @@ import { CSSProperties } from 'react'
 
 export function getPokemonSelectedImageStyle(image: string): CSSProperties {
   return {
-    backgroundImage: `url('${image}')`,
+    backgroundImage: `url('/pokemons/${image}')`,
     backgroundPosition: 'left',
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat'

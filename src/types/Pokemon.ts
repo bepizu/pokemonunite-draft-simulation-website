@@ -20,13 +20,13 @@ export type Pokemon = {
 };
 
 export enum Tag {
-  DEFENDER = "Defender",
-  RANGED = "Ranged",
-  SUPPORTER = "Supporter",
-  SPEEDSTER = "Speedster",
-  MELEE = "Melee",
-  ATTACKER = "Attacker",
-  ALLROUNDER = "Allrounder",
+  DEFENDER = "defender",
+  RANGED = "ranged",
+  SUPPORTER = "supporter",
+  SPEEDSTER = "speedster",
+  MELEE = "melee",
+  ATTACKER = "attacker",
+  ALLROUNDER = "allrounder",
 }
 
 enum Difficulty {

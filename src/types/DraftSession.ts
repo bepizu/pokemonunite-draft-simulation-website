@@ -1,3 +1,5 @@
+import { DraftType } from '@/components/DraftContainer';
+import { Pokemon } from './Pokemon';
 import { Team } from './Team';
 
 type DraftSession = {
@@ -6,7 +8,9 @@ type DraftSession = {
   team1: Team & Record<string, any>,
   team2: Team & Record<string, any>,
   spectator: Spectator,
-  pickTurn: number
+  pickTurn: number,
+  draftType: DraftType,
+  pokemons?: Pokemon[],
 } & Record<string, any>
 
 type Spectator = {

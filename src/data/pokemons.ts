@@ -1040,4 +1040,4 @@ const pokemons: Array<Pokemon> = [
   },
 ];
 
-export default pokemons;
+export default pokemons

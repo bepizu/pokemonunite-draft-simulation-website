@@ -1,84 +1,73 @@
-import DraftContainer, { DraftType } from '@/components/DraftContainer';
 import DraftSession from '@/types/DraftSession';
-import { getRequest } from '@/utils/requests';
+import DraftContainer, { DraftType } from '@/components/DraftContainer';
+import { SocketContext } from '@/context/socket';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import io, {Socket} from 'Socket.IO-client'
-
-let socket: Socket | undefined
+import { useContext, useEffect, useState } from 'react';
+import { selectDraftSessionState, setDraftSessionState } from "@/store/draftSessionSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { TeamEnum } from '@/types/Team';
 
 export default function ProfessionalDraft() {
   const router = useRouter()
-  const { type, sessionId } = router.query
+  const socket = useContext(SocketContext);
+  const draftSessionState = useSelector(selectDraftSessionState);
+  const dispatch = useDispatch();
+  const { viewType, sessionId } = router.query
   const [pageContent, setPageContent] = useState(<></>)
-  const [draftSession, setDraftSession] = useState<DraftSession | undefined>()
-
-  console.log('socket', socket)
 
   useEffect(() => {
-    if (sessionId) {
-      getDraftSession()
+    if (socket) {
+      try {
+        if (sessionId && viewType) {
+          socket.emit('enter-draft', {
+            sessionId,
+            viewType,
+            draftType: viewType === DraftType.SPECTATOR ? DraftType.SPECTATOR : DraftType.PROFESSIONAL,
+            id: socket.id
+          })
+        }
+      } catch (error) {
+        console.error("draft session error", {error})
+      }
     }
-  }, [sessionId])
+  }, [sessionId, viewType, socket])
 
   useEffect(() => {
-    if (type && draftSession) {
-      switch (type) {
-        case "0":
-        case "1":
-          setPageContent(<DraftContainer type={DraftType.PROFESSIONAL} selectedTeam={Number(type)} draftSession={draftSession} selectPick={updateDraftSocket} />)
+    if (socket) {
+      socket.on("draft-update", (draftSessionSocket: DraftSession) => {
+        dispatch(setDraftSessionState(draftSessionSocket))
+      })
+      socket.on("draft-connecting", (msg: string) => {
+        // console.log("draft-connecting message", {msg})
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (viewType && draftSessionState) {
+      console.count("draftUpdated")
+      switch (viewType) {
+        case "team1":
+          setPageContent(<DraftContainer 
+            type={DraftType.PROFESSIONAL}
+            selectedTeam={TeamEnum.TEAM1} />)
+          break
+        case "team2":
+          setPageContent(<DraftContainer 
+            type={DraftType.PROFESSIONAL}
+            selectedTeam={TeamEnum.TEAM2} />)
           break
         
-        case "2":
-          setPageContent(<DraftContainer type={DraftType.SPECTATOR} draftSession={draftSession} selectPick={updateDraftSocket} />)
+        case "spectate":
+          setPageContent(<DraftContainer
+            type={DraftType.SPECTATOR} />)
           break
     
         default:
           router.push("/")
       }
     }
-  }, [type, draftSession])
-
-  function updateDraftSocket() {
-    if (socket) {
-      socket.emit('select-pick', {
-        sessionId,
-        type,
-        payload: draftSession
-      })
-    }
-  }
-
-  async function getDraftSession() {
-    try {
-      if (!socket) {
-        socket = io('http://localhost:8001', {autoConnect: false})
-        console.log("session created", socket.id)
-        socket.connect()
-      } else {
-        console.log("session already created", socket.id)
-      }
-
-      socket.on('connect', () => { 
-        if (socket) {
-          console.log(`Team ${type} connected`)
-  
-          socket.emit('enter-draft', {
-            sessionId,
-            type,
-            id: socket.id
-          })
-        }
-      })
-      socket.on("connect_error", (error: any) => { console.error(`error during connecting`, {error}) });
-      socket.on("draft-update", (draftSessionSocket: DraftSession) => {
-        console.log("draft-update received message", {draftSessionSocket})
-        setDraftSession(draftSessionSocket)
-      })
-    } catch (error) {
-      console.error("draft session error", {error})
-    }
-  }
+  }, [viewType, draftSessionState])
 
   return pageContent
 }

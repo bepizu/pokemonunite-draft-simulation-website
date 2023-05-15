@@ -5,6 +5,9 @@ import Modal from '@/components/Modal'
 import { Button, Checkbox, Input, Typography } from '@material-tailwind/react'
 import DraftSession from '@/types/DraftSession'
 import { postRequest } from '@/utils/requests'
+import { Pokemon } from '@/types/Pokemon'
+import { DraftType } from '@/components/DraftContainer'
+import environment from '@/config/environment'
 
 export default function Home() {
 
@@ -32,6 +35,7 @@ export default function Home() {
       pick4: {},
       pick5: {},
     },
+    draftType: DraftType.PROFESSIONAL,
     spectator: {
       active: false
     },
@@ -40,12 +44,12 @@ export default function Home() {
 
   async function createSession() {
     if (!sessionDraftInfo._id) {
-      const createSessionResponse = await postRequest<{_id: string}>("/api/draft", sessionDraftInfo)
+      const createSessionResponse = await postRequest<{_id: string}>(`${environment.API}/drafts`, sessionDraftInfo)
       
       if (createSessionResponse?._id) {
         setSessionDraftInfo({...sessionDraftInfo, _id: createSessionResponse._id})
       } else {
-        console.error("OPS")
+        console.error("session not created")
       }
     }
 
@@ -92,7 +96,7 @@ export default function Home() {
                 })
               }} label="Time 2" />
             </div>
-            <Checkbox
+            {/* <Checkbox
               label={
                 (
                   <Typography
@@ -107,7 +111,7 @@ export default function Home() {
               checked={sessionDraftInfo.spectator.active}
               onChange={() => setSessionDraftInfo({...sessionDraftInfo, spectator: { ...sessionDraftInfo.spectator, active: !sessionDraftInfo.spectator.active }})}
               containerProps={{ className: "-ml-2.5" }}
-            />
+            /> */}
             <Button color='light-green' className="mt-6" onClick={createSession} fullWidth>
               Criar Sessão
             </Button>
@@ -117,15 +121,15 @@ export default function Home() {
               toogleModal={() => setShowTournamentModal(!showTournamentModal)} 
               header={"Informações de Draft"}>
                 <p>
-                  <strong>Draft do Time 1:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=0`} target='_blank'>Clique aqui</a>
+                  <strong>Draft do Time 1:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=team1`} target='_blank'>Clique aqui</a>
                 </p>
                 <p>
-                  <strong>Draft do Time 2:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=1`} target='_blank'>Clique aqui</a>
+                  <strong>Draft do Time 2:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=team2`} target='_blank'>Clique aqui</a>
                 </p>
                 {
                   sessionDraftInfo.spectator.active && (
                     <p>
-                      <strong>Espectador:</strong> <a href={`/draft/${sessionDraftInfo._id}?type=2`} target='_blank'>Clique aqui</a>
+                      <strong>Espectador:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=spectator`} target='_blank'>Clique aqui</a>
                     </p>
                   )
                 }

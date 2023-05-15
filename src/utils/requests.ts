@@ -10,7 +10,6 @@ export async function getRequest<T>(url: string): Promise<T | undefined> {
   try {
     const request = await axios.get<RequestResponse<T>>(url)
     const response: RequestResponse<T> = request.data
-    console.log({request})
 
     return response.data
   } catch (error) {

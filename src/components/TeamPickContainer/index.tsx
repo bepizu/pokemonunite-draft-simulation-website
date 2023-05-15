@@ -65,7 +65,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
             <div style={pickFrameStyle}></div>
             <div style={pickTrainerStyle}>
               <Avatar />
-              <div style={pickNameStyle}>Trainer <span>{idx}</span></div>
+              <div style={pickNameStyle}>Trainer <span>{(idx + 1)}</span></div>
             </div>
           </div>
         )
