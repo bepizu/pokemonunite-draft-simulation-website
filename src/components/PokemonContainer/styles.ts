@@ -1,6 +1,7 @@
-import { MAX_HEIGHT_PKMN_BOX, MAX_WIDTH_PKMN_BOX } from '@/constants'
 import { BattleType, BattleTypeColor } from '@/types/Pokemon'
+import { ScreenSize } from '@/types/ScreenSize'
 import { TeamEnum } from '@/types/Team'
+import getResponsiveStyleSize from '@/utils/get-responsive-style-size'
 import { CSSProperties } from 'react'
 
 export function selectBackgroundPickColor(picked: string) {
@@ -29,16 +30,16 @@ export function selectBackgroundPickOpacity(picked: string) {
   }
 }
 
-export function getPokemonImageStyle(pokemon: any): CSSProperties {
+export function getPokemonImageStyle(pokemon: any, screenSize: ScreenSize): CSSProperties {
   return {
     backgroundImage: `url('/pokemons/${pokemon.images.main}')`,
     backgroundPosition: 'top',
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
-    marginTop: -12,
-    marginBottom: 12,
-    width: MAX_WIDTH_PKMN_BOX,
-    height: MAX_HEIGHT_PKMN_BOX,
+    marginTop: getResponsiveStyleSize(screenSize, { small: -6, large: -12 }),
+    marginBottom: getResponsiveStyleSize(screenSize, { small: 6, large: 12 }),
+    width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
+    height: getResponsiveStyleSize(screenSize, { small: 64, large: 126 }),
     opacity: selectBackgroundPickOpacity(pokemon.picked),
   }
 }
@@ -65,37 +66,37 @@ export function selectBackgroundColorByBattleType(battleType: number) {
   }
 }
 
-export function getPickButtonStyle(pokemon: any): CSSProperties {
+export function getPickButtonStyle(pokemon: any, screenSize: ScreenSize): CSSProperties {
   return {
     cursor: 'pointer',
     position: 'relative',
     backgroundColor: selectBackgroundColorByBattleType(pokemon.battleType),
     overflow: 'hidden',
-    borderRadius: 12,
+    borderRadius: getResponsiveStyleSize(screenSize, { small: 6, large: 12 }),
     backgroundImage: `url('/pattern-bg.svg')`,
     backgroundPosition: 'top',
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
     borderColor: selectBackgroundPickColor(pokemon.picked),
-    borderWidth: 3,
+    borderWidth: getResponsiveStyleSize(screenSize, { small: 1.8, large: 3 }),
     display: 'inline-flex',
-    margin: 5,
+    margin: getResponsiveStyleSize(screenSize, { small: 2, large: 5 }),
     zIndex: 999
   }
 }
 
-export function getPokemonName(pokemon: any): CSSProperties {
+export function getPokemonName(pokemon: any, screenSize: ScreenSize): CSSProperties {
   return {
-    width: MAX_WIDTH_PKMN_BOX,
-    fontSize: 13,
+    width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
+    fontSize: getResponsiveStyleSize(screenSize, { small: 7, large: 13 }),
     fontFamily: 'Exo',
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: getResponsiveStyleSize(screenSize, { small: 2, large: 4 }),
+    paddingBottom: getResponsiveStyleSize(screenSize, { small: 2, large: 4 }),
     textTransform: 'uppercase',
     letterSpacing: '.5px',
     fontStyle: 'italic',
     fontWeight: '900',
-    borderInlineWidth: 3,
+    borderInlineWidth: getResponsiveStyleSize(screenSize, { small: 1.8, large: 3 }),
     borderInlineColor: selectBackgroundPickColor(pokemon.picked),
     backgroundColor: selectBackgroundPickColor(pokemon.picked),
     bottom: 0,
@@ -106,11 +107,11 @@ export function getPokemonName(pokemon: any): CSSProperties {
   }
 }
 
-export const styles: Record<string, CSSProperties> = {
+export const styles = (screenSize: ScreenSize): Record<string, CSSProperties> => ({
   pickOverlay: {
     position: 'absolute',
-    width: MAX_WIDTH_PKMN_BOX,
-    height: MAX_HEIGHT_PKMN_BOX,
+    width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
+    height: getResponsiveStyleSize(screenSize, { small: 64, large: 126 }),
     zIndex: 100
   }
-}
+})
