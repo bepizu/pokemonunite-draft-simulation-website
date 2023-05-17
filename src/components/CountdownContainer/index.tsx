@@ -18,7 +18,7 @@ type CountdownContainerProps = {
   draftType: DraftType
 }
 
-export default function CountdownContainer (props: CountdownContainerProps) {
+export default function CountdownContainer(props: CountdownContainerProps) {
   const { pickTurn, currentTeam, connectedTeam, draftType } = props
   const draftSessionState = useSelector(selectDraftSessionState);
   const countdownState = useSelector(selectCountdownState);
@@ -38,7 +38,7 @@ export default function CountdownContainer (props: CountdownContainerProps) {
   function startDraft() {
     if (socket) {
       socket
-        .emit("update-status-draft", { 
+        .emit("update-status-draft", {
           sessionId: draftSessionState._id,
           draftStatus: DraftStatus.Started,
           pickTurnTeam: TeamEnum.TEAM1
@@ -64,7 +64,7 @@ export default function CountdownContainer (props: CountdownContainerProps) {
 
       {(countdownState.draftStatus === DraftStatus.Started) && (
         <div>
-          <div style={{fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D"}}>Time {currentTeam} escolhendo</div>
+          <div style={{ fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D" }}>Time {currentTeam} escolhendo</div>
           <div style={styles.countdownStyle}>{countdownState.countdown}</div>
         </div>
       )}
@@ -72,16 +72,19 @@ export default function CountdownContainer (props: CountdownContainerProps) {
       {countdownState.draftStatus === DraftStatus.Finished && (
         <div>
           <div style={styles.titleCountdown}>Draft completo!</div>
-          <Button style={styles.buttonStyle} onClick={() => {
-            if (draftType === DraftType.INDIVIDUAL) {
-              router.reload()
-            } else {
-              router.push("/")
-            }
-          }}>Restart Draft</Button>
+
+          {draftType === DraftType.INDIVIDUAL && (
+            <Button style={styles.buttonStyle} onClick={() => {
+              if (draftType === DraftType.INDIVIDUAL) {
+                router.reload()
+              } else {
+                router.push("/")
+              }
+            }}>Restart Draft</Button>
+          )}
         </div>
       )}
-      
+
     </div>
   ) : <></>
 }
