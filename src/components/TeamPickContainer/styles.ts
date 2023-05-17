@@ -1,3 +1,5 @@
+import { ScreenSize } from '@/types/ScreenSize'
+import getResponsiveStyleSize from '@/utils/get-responsive-style-size'
 import { CSSProperties } from 'react'
 
 export function getPokemonSelectedImageStyle(image: string): CSSProperties {
@@ -22,9 +24,9 @@ export function selectedPickNameStyle(): CSSProperties {
   }
 }
 
-export function getSelectedPickStyle(): CSSProperties {
+export function getSelectedPickStyle(screenSize: ScreenSize): CSSProperties {
   return {
-    width: 240,
+    width: getResponsiveStyleSize(screenSize, { large: 240, medium: 100 }),
     height: 100,
     backgroundColor: '#00000040',
     borderRadius: 12,
@@ -44,19 +46,19 @@ export function getSelectedPickFrame(): CSSProperties {
   }
 }
 
-export function getSelectedPickTrainer(): CSSProperties {
+export function getSelectedPickTrainer(screenSize: ScreenSize): CSSProperties {
   return {
-    display: 'flex',
+    display: screenSize === ScreenSize.LARGE ? 'flex' : 'none',
     flexDirection: 'column'
   }
 }
 
-const styles: Record<string, CSSProperties> = {
+const styles = (screenSize: ScreenSize): Record<string, CSSProperties> => ({
   blueSidePosition: {
-    marginLeft: 48
+    marginLeft: getResponsiveStyleSize(screenSize, { small: 14, medium: 24, large: 48 })
   },
   redSidePosition: {
-    marginRight: 48
+    marginRight: getResponsiveStyleSize(screenSize, { small: 14, medium: 24, large: 48 })
   },
   teamPickContainer: {
     position: 'relative',
@@ -122,6 +124,6 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: '#FADAA2',
     paddingRight: 20
   },
-}
+})
 
 export default styles

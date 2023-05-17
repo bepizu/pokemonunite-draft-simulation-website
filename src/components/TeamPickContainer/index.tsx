@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react'
 import styles, { getPokemonSelectedImageStyle, getSelectedPickFrame, getSelectedPickStyle, getSelectedPickTrainer, selectedPickNameStyle } from './styles'
 import Image from 'next/image'
+import useMediaQueries from '@/hooks/useMediaQueries'
 
 type TeamPickContainerProps = {
   team: any,
@@ -20,16 +21,17 @@ function Avatar() {
 
 export default function TeamPickContainer(props: TeamPickContainerProps) {
   const { team, side } = props
+  const screenSize = useMediaQueries()
 
   return (
-    <div id={`${side}-team-picks`} style={{ ...styles.teamPickContainer, ...(side === 'blue' ? styles.blueSidePosition : styles.redSidePosition) }}>
+    <div id={`${side}-team-picks`} style={{ ...styles(screenSize).teamPickContainer, ...(side === 'blue' ? styles(screenSize).blueSidePosition : styles(screenSize).redSidePosition) }}>
 
       {[1].map(idx => (
         <div
           key={idx}
           id={`${side}-team-ban-1`}
           style={{
-            ...styles.selectedBanStyle, ...(side === 'blue' ? styles.blueSidePositionBan : styles.redSidePositionBan),
+            ...styles(screenSize).selectedBanStyle, ...(side === 'blue' ? styles(screenSize).blueSidePositionBan : styles(screenSize).redSidePositionBan),
             ...(team.ban1.images ? getPokemonSelectedImageStyle(team.ban1.images.main) : {})
           }}
         >
@@ -40,24 +42,24 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
         const pickSelected = team[pick]
 
         const sidePositionStyle: CSSProperties = {
-          ...getSelectedPickStyle(),
-          ...(side === 'blue' ? styles.blueSidePositionPicks : styles.redSidePositionPicks)
+          ...getSelectedPickStyle(screenSize),
+          ...(side === 'blue' ? styles(screenSize).blueSidePositionPicks : styles(screenSize).redSidePositionPicks)
         }
         const pickFrameStyle: CSSProperties = {
           ...getSelectedPickFrame(),
-          ...(side === 'blue' ? styles.blueSidePositionFrame : styles.redSidePositionFrame),
+          ...(side === 'blue' ? styles(screenSize).blueSidePositionFrame : styles(screenSize).redSidePositionFrame),
           position: 'relative',
           ...(
             pickSelected.images ? getPokemonSelectedImageStyle(pickSelected.images.main) : {}
           )
         }
         const pickTrainerStyle: CSSProperties = {
-          ...getSelectedPickTrainer(),
-          ...(side === 'blue' ? styles.blueSidePositionTrainer : styles.redSidePositionTrainer)
+          ...getSelectedPickTrainer(screenSize),
+          ...(side === 'blue' ? styles(screenSize).blueSidePositionTrainer : styles(screenSize).redSidePositionTrainer)
         }
         const pickNameStyle: CSSProperties = {
           ...selectedPickNameStyle(),
-          ...(side === 'blue' ? styles.blueSidePositionName : styles.redSidePositionName)
+          ...(side === 'blue' ? styles(screenSize).blueSidePositionName : styles(screenSize).redSidePositionName)
         }
 
         return (
