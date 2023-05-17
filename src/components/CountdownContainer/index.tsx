@@ -52,13 +52,10 @@ export default function CountdownContainer(props: CountdownContainerProps) {
       {(countdownState.draftStatus === DraftStatus.NotStarted) && (
         <div>
           <div style={styles.titleCountdown}>Boas-vindas ao Draft Simulator!</div>
-          <Button style={styles.buttonStyle} onClick={() => {
-            if (connectedTeam === TeamEnum.TEAM1) {
-              startDraft()
-            } else {
-              alert(`Somente o time ${draftSessionState.team1.name} pode iniciar o draft`)
-            }
-          }}>Start Draft</Button>
+
+          {(connectedTeam === TeamEnum.TEAM1) ? (
+            <Button style={styles.buttonStyle} onClick={() => startDraft()}>Start Draft</Button>
+          ) : <p><em>Aguardando o time {draftSessionState.team1.name} iniciar o draft</em></p>}
         </div>
       )}
 

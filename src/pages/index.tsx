@@ -121,7 +121,7 @@ export default function Home() {
             </Button>
 
             <Modal
-              show={showTournamentModal || true}
+              show={showTournamentModal}
               toogleModal={() => setShowTournamentModal(!showTournamentModal)}
               header={"Informações de Draft"}>
               <p>
