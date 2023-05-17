@@ -8,10 +8,13 @@ import { TeamEnum } from '@/types/Team'
 import { DraftType } from '../DraftContainer'
 import { selectCountdownState } from '@/store/countdownSlice'
 import { DraftStatus } from '@/types/DraftStatus'
+import useWindowSize from '@/hooks/useWindowSize'
 
 type PokemonContainerProps = {
   selectedTeam?: TeamEnum,
 }
+
+const marginTop = 155
 
 export default function PokemonContainer(props: PokemonContainerProps) {
 
@@ -22,6 +25,7 @@ export default function PokemonContainer(props: PokemonContainerProps) {
   const [draftSessionId, setDraftSessionId] = useState<string | undefined>()
   const [pokemons, setPokemons] = useState<Pokemon[] | undefined>()
   const [alreadySelected, _] = useState<string[]>([]) // throttle for select pick delay 
+  const { height: windowHeight } = useWindowSize()
 
   useEffect(() => {
     if (draftSessionState._id) {
@@ -35,7 +39,17 @@ export default function PokemonContainer(props: PokemonContainerProps) {
 
   return (pokemons && draftSessionId && socket) ? (
     <>
-      <div id='pokemon-list-select' className="flex flex-wrap" style={{ width: 813, margin: 'auto', marginTop: '64px', }}>
+      <div
+        id='pokemon-list-select'
+        className="flex flex-wrap hide-scrollbar"
+        style={{
+          justifyContent: 'center',
+          margin: '-4px 18px 0',
+          maxHeight: windowHeight - marginTop,
+          maxWidth: 813,
+          overflowY: 'scroll',
+        }}
+      >
         {pokemons && pokemons.map((pokemon, key) => (
           <div
             onClick={pokemon.picked !== undefined ? () => { } : () => {

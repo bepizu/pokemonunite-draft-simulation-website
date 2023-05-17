@@ -61,6 +61,6 @@ export function getCountdownTimeContainer (pickTurn: PickTurn): CSSProperties {
     backgroundColor: '#fff',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    marginBottom: 10
+    marginBottom: 64
   }
 }

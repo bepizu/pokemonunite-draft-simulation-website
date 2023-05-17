@@ -53,15 +53,13 @@ export function getSelectedPickTrainer(): CSSProperties {
 
 const styles: Record<string, CSSProperties> = {
   blueSidePosition: {
-    top: 140,
-    left: 60
+    marginLeft: 48
   },
   redSidePosition: {
-    top: 140,
-    right: 60
+    marginRight: 48
   },
   teamPickContainer: {
-    position: 'absolute',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     gap: 24
@@ -115,13 +113,11 @@ const styles: Record<string, CSSProperties> = {
     textAlign: 'right',
   },
   blueSidePositionName: {
-    marginLeft: -10,
     borderBottomRightRadius: 12,
     backgroundColor: '#C3B4FA',
     paddingLeft: 20
   },
   redSidePositionName: {
-    marginRight: -10,
     borderBottomLeftRadius: 12,
     backgroundColor: '#FADAA2',
     paddingRight: 20

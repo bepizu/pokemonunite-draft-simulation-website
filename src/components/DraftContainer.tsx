@@ -19,6 +19,13 @@ type DraftContainerProps = {
   selectedTeam?: TeamEnum,
 }
 
+const styles = {
+  picksContainer: {
+    justifyContent: 'center',
+    display: 'flex',
+  }
+}
+
 export default function DraftContainer(props: DraftContainerProps) {
 
   const { type, selectedTeam } = props
@@ -40,10 +47,11 @@ export default function DraftContainer(props: DraftContainerProps) {
         connectedTeam={selectedTeam} 
         draftType={type} />
 
-      {draftSession.team1 && <TeamPickContainer team={draftSession.team1} side={"blue"} />}
-      {draftSession.team2 && <TeamPickContainer team={draftSession.team2} side={"red"} />}
-
-      <PokemonContainer selectedTeam={selectedTeam} />
+      <div id="picks-container" style={styles.picksContainer}>
+        {draftSession.team1 && <TeamPickContainer team={draftSession.team1} side={"blue"} />}
+        <PokemonContainer selectedTeam={selectedTeam} />
+        {draftSession.team2 && <TeamPickContainer team={draftSession.team2} side={"red"} />}
+      </div>
 
     </div>
   ) : <></>
