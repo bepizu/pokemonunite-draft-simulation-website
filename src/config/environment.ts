@@ -1,5 +1,5 @@
 const environment = {
-  MONGODB_URI: process.env.NEXT_PUBLIC_MONGODB_URI || '',
+  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || '',
   API: process.env.NEXT_PUBLIC_API || ''
 }
 

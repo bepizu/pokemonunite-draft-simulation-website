@@ -14,6 +14,11 @@ export default function Home() {
 
   const [showTournamentInfo, setShowTournamentInfo] = useState(false)
   const [showTournamentModal, setShowTournamentModal] = useState(false)
+  const [showCopyMessage, setShowCopyMessage] = useState({
+    team1: "",
+    team2: "",
+    spectator: ""
+  })
   const [sessionDraftInfo, setSessionDraftInfo] = useState<DraftSession>({
     lobbyId: "92374923",
     team1: {
@@ -43,10 +48,10 @@ export default function Home() {
 
   async function createSession() {
     if (!sessionDraftInfo._id) {
-      const createSessionResponse = await postRequest<{_id: string}>(`${environment.API}/drafts`, sessionDraftInfo)
-      
+      const createSessionResponse = await postRequest<{ _id: string }>(`${environment.API}/drafts`, sessionDraftInfo)
+
       if (createSessionResponse?._id) {
-        setSessionDraftInfo({...sessionDraftInfo, _id: createSessionResponse._id})
+        setSessionDraftInfo({ ...sessionDraftInfo, _id: createSessionResponse._id })
       } else {
         console.error("session not created")
       }
@@ -115,23 +120,41 @@ export default function Home() {
               Criar Sessão
             </Button>
 
-            <Modal 
-              show={showTournamentModal}
-              toogleModal={() => setShowTournamentModal(!showTournamentModal)} 
+            <Modal
+              show={showTournamentModal || true}
+              toogleModal={() => setShowTournamentModal(!showTournamentModal)}
               header={"Informações de Draft"}>
-                <p>
-                  <strong>Draft do Time 1:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=team1`} target='_blank'>Clique aqui</a>
-                </p>
-                <p>
-                  <strong>Draft do Time 2:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=team2`} target='_blank'>Clique aqui</a>
-                </p>
-                {
-                  sessionDraftInfo.spectator.active && (
-                    <p>
-                      <strong>Espectador:</strong> <a href={`/draft/${sessionDraftInfo._id}?viewType=spectator`} target='_blank'>Clique aqui</a>
-                    </p>
-                  )
-                }
+              <p>
+                <strong>Draft do Time 1:</strong>
+                <span style={{ cursor: 'pointer' }} onClick={() => {
+                  navigator.clipboard.writeText(`${environment.DOMAIN}/draft/${sessionDraftInfo._id}?viewType=team1`)
+
+                  setShowCopyMessage({ ...showCopyMessage, team1: "(copiado)" })
+                  setTimeout(() => setShowCopyMessage({ ...showCopyMessage, team1: "" }), 5000)
+                }}> clique para copiar o link <small>{showCopyMessage.team1}</small></span>
+              </p>
+              <p>
+                <strong>Draft do Time 2:</strong>
+                <span style={{ cursor: 'pointer' }} onClick={() => {
+                  navigator.clipboard.writeText(`${environment.DOMAIN}/draft/${sessionDraftInfo._id}?viewType=team2`)
+
+                  setShowCopyMessage({ ...showCopyMessage, team2: "(copiado)" })
+                  setTimeout(() => setShowCopyMessage({ ...showCopyMessage, team2: "" }), 5000)
+                }}> clique para copiar o link <small>{showCopyMessage.team2}</small></span>
+              </p>
+              {
+                sessionDraftInfo.spectator.active && (
+                  <p>
+                    <strong>Espectador:</strong>
+                    <span style={{ cursor: 'pointer' }} onClick={() => {
+                      navigator.clipboard.writeText(`${environment.DOMAIN}/draft/${sessionDraftInfo._id}?viewType=spectator`)
+
+                      setShowCopyMessage({ ...showCopyMessage, spectator: "(copiado)" })
+                      setTimeout(() => setShowCopyMessage({ ...showCopyMessage, spectator: "" }), 5000)
+                    }}> Copiar link <small>{showCopyMessage.spectator}</small></span>
+                  </p>
+                )
+              }
             </Modal>
           </form>
         </div>
