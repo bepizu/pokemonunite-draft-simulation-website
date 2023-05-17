@@ -9,6 +9,9 @@ function useMediaQueries(): ScreenSize {
         const smallMq = window.matchMedia(`(max-width: ${ScreenSize.SMALL}px)`);
         const mediumMq = window.matchMedia(`(min-width: ${ScreenSize.MEDIUM}px) and (max-width: ${ScreenSize.LARGE}px)`);
 
+        setIsSmall(smallMq.matches)
+        setIsMedium(mediumMq.matches)
+
         const smallCallback = (event: MediaQueryListEvent) => setIsSmall(event.matches)
         const mediumCallback = (event: MediaQueryListEvent) => setIsMedium(event.matches)
 
