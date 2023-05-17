@@ -1,24 +1,26 @@
 import PickTurn from '@/types/PickTurn';
+import { ScreenSize } from '@/types/ScreenSize';
 import { TeamEnum } from '@/types/Team';
+import getResponsiveStyleSize from '@/utils/get-responsive-style-size';
 import { CSSProperties } from 'react';
 
-export const styles: Record<string, CSSProperties> = {
+export const styles = (screenSize: ScreenSize): Record<string, CSSProperties> => ({
   buttonStyle: {
     fontFamily: 'Exo',
     textTransform: 'capitalize',
     background: "#FB7823",
     borderRadius:'100px',
     fontWeight: '700',
-    fontSize:'16px',
-    lineHeight: '24px',
-    height: '64px',
-    width: '194px',
+    fontSize: `${getResponsiveStyleSize(screenSize, { small: 12, large: 16 })}px`,
+    lineHeight: `${getResponsiveStyleSize(screenSize, { small: 16, large: 24 })}px`,
+    height: getResponsiveStyleSize(screenSize, { small: 48, large: 64 }),
+    width: getResponsiveStyleSize(screenSize, { small: 125, large: 194 }),
     boxShadow: 'none',
   },
   countdownStyle: {
-    fontSize: "62px",
-    lineHeight: "72px",
-    height: "24px",
+    fontSize: `${getResponsiveStyleSize(screenSize, { small: 46, large: 62 })}px`,
+    lineHeight: `${getResponsiveStyleSize(screenSize, { small: 46, large: 72 })}px`,
+    height: `${getResponsiveStyleSize(screenSize, { small: 16, large: 24 })}px`,
     textAlign: "center",
     fontFamily: "Exo",
     fontWeight: "900",
@@ -26,16 +28,16 @@ export const styles: Record<string, CSSProperties> = {
     textShadow: "-4px 0px 0px #fff, 4px 0px 0px #fff, 0px -4px 0px #fff, 0px 4px 0px #fff"
   },
   titleCountdown: {
-    fontSize: "24px",
-    lineHeight: "32px",
+    fontSize: `${getResponsiveStyleSize(screenSize, { small: 16, large: 24 } )}px`,
+    lineHeight: `${getResponsiveStyleSize(screenSize, { small: 22, large: 32 } )}px`,
     fontFamily: "PT Sans",
     fontWeight: "400",
     color: "#220A3D",
-    marginBottom: 8
+    marginBottom: getResponsiveStyleSize(screenSize, { small: 4, large: 8 } )
   }
-}
+})
 
-export function getCountdownTimeContainer (pickTurn: PickTurn): CSSProperties {
+export function getCountdownTimeContainer (pickTurn: PickTurn, screenSize: ScreenSize): CSSProperties {
   let colorSelected = '#fff'
 
   switch (pickTurn.team) {
@@ -50,17 +52,17 @@ export function getCountdownTimeContainer (pickTurn: PickTurn): CSSProperties {
 
   return {
     borderColor: colorSelected,
-    borderTopWidth: 13,
+    borderTopWidth: getResponsiveStyleSize(screenSize, { small: 8, large: 13 }),
     margin: 'auto',
     color: '#000',
-    width: 520,
-    height: 95,
+    width: getResponsiveStyleSize(screenSize, { small: 347, large: 520 } ),
+    height: getResponsiveStyleSize(screenSize, { small: 56, large: 95 }),
     textAlign: 'center',
-    paddingTop: 11,
-    paddingBottom: 10,
+    paddingTop: getResponsiveStyleSize(screenSize, { small: 4, large: 12 } ),
+    paddingBottom: getResponsiveStyleSize(screenSize, { small: 4, large: 12 } ),
     backgroundColor: '#fff',
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    marginBottom: 64
+    borderBottomLeftRadius: getResponsiveStyleSize(screenSize, { small: 23, large: 30 }),
+    borderBottomRightRadius: getResponsiveStyleSize(screenSize, { small: 23, large: 30 }),
+    marginBottom: getResponsiveStyleSize(screenSize, { small: 56, large: 64 } )
   }
 }
