@@ -53,7 +53,7 @@ export default function CountdownContainer(props: CountdownContainerProps) {
 
       {(countdownState.draftStatus === DraftStatus.NotStarted) && (
         <div>
-          <div style={styles(screenSize).titleCountdown}>Boas-vindas ao Draft Simulator!</div>
+          <div style={styles(screenSize).titleCountdown}>Bem-vindo ao Draft Simulator!</div>
 
           {(connectedTeam === TeamEnum.TEAM1) ? (
             <Button style={styles(screenSize).buttonStyle} onClick={() => startDraft()}>Start Draft</Button>
