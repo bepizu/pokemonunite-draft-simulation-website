@@ -46,7 +46,7 @@ export default function TeamPickContainer(props: TeamPickContainerProps) {
           ...(side === 'blue' ? styles(screenSize).blueSidePositionPicks : styles(screenSize).redSidePositionPicks)
         }
         const pickFrameStyle: CSSProperties = {
-          ...getSelectedPickFrame(),
+          ...getSelectedPickFrame(screenSize),
           ...(side === 'blue' ? styles(screenSize).blueSidePositionFrame : styles(screenSize).redSidePositionFrame),
           position: 'relative',
           ...(
