@@ -13,4 +13,5 @@ export type Team = {
 export enum TeamEnum {
   TEAM1 = "team1",
   TEAM2 = "team2",
+  BOTH = "both"
 }

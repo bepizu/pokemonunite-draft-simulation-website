@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Button } from "@material-tailwind/react";
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from "react-redux";
@@ -14,15 +14,15 @@ import useMediaQueries from '@/hooks/useMediaQueries';
 
 type CountdownContainerProps = {
   pickTurn: PickTurn,
-  currentTeam: string,
   connectedTeam?: TeamEnum,
   draftType: DraftType
 }
 
 export default function CountdownContainer(props: CountdownContainerProps) {
-  const { pickTurn, currentTeam, connectedTeam, draftType } = props
+  const { pickTurn, connectedTeam, draftType } = props
   const draftSessionState = useSelector(selectDraftSessionState);
   const countdownState = useSelector(selectCountdownState);
+  const [currentTeamMessage, setCurrentTeamMessage] = useState("")
   const screenSize = useMediaQueries()
 
   const router = useRouter()
@@ -36,6 +36,18 @@ export default function CountdownContainer(props: CountdownContainerProps) {
       })
     }
   }, [socket])
+
+  useEffect(() => {
+    if (pickTurn) {
+      if (pickTurn.team === TeamEnum.TEAM1) {
+        setCurrentTeamMessage(`Time ${draftSessionState.team1.name} escolhendo`)
+      } else if (pickTurn.team === TeamEnum.TEAM2) {
+        setCurrentTeamMessage(`Time ${draftSessionState.team2.name} escolhendo`)
+      } else if (pickTurn.team === TeamEnum.BOTH) {
+        setCurrentTeamMessage(`Aguardando a seleção de ambos os times`)
+      }
+    }
+  }, [pickTurn])
 
   function startDraft() {
     if (socket) {
@@ -63,8 +75,8 @@ export default function CountdownContainer(props: CountdownContainerProps) {
 
       {(countdownState.draftStatus === DraftStatus.Started) && (
         <div>
-          <div style={styles(screenSize).titleCountdown}>Time {currentTeam} escolhendo</div>
-          <div style={styles(screenSize).countdownStyle}>{countdownState.countdown}</div>
+          <div style={{ fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D" }}>Time {currentTeam} escolhendo</div>
+          <div style={styles.countdownStyle}>{countdownState.countdown}</div>
         </div>
       )}
 
@@ -79,7 +91,7 @@ export default function CountdownContainer(props: CountdownContainerProps) {
               } else {
                 router.push("/")
               }
-            }}>Restart Draft</Button>
+            }}>Reiniciar Draft</Button>
           )}
         </div>
       )}

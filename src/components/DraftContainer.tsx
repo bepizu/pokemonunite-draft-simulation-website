@@ -1,7 +1,7 @@
 import TeamPickContainer from '@/components/TeamPickContainer'
 import PokemonContainer from '@/components/PokemonContainer'
 import CountdownContainer from '@/components/CountdownContainer'
-import { PICK_ORDER } from '@/constants'
+import { PICK_ORDER_ALTERNATE_BAN, PICK_ORDER_SIMULTANEOUSLY_BAN } from '@/constants'
 import { selectDraftSessionState } from "@/store/draftSessionSlice";
 import { useSelector } from "react-redux";
 import { TeamEnum } from '@/types/Team'
@@ -32,7 +32,7 @@ export default function DraftContainer(props: DraftContainerProps) {
   const draftSessionState = useSelector(selectDraftSessionState);
   const [draftSession, setDraftSession] = useState<DraftSession | undefined>()
 
-  useEffect(()=>{
+  useEffect(() => {
     if (draftSessionState) {
       setDraftSession(draftSessionState)
     }
@@ -42,9 +42,12 @@ export default function DraftContainer(props: DraftContainerProps) {
     <div style={{ position: 'relative' }}>
 
       <CountdownContainer
-        pickTurn={PICK_ORDER[draftSession.pickTurn]}
-        currentTeam={PICK_ORDER[draftSession.pickTurn].team === TeamEnum.TEAM1 ? draftSession.team1.name : draftSession.team2.name}
-        connectedTeam={selectedTeam} 
+        pickTurn={
+          type !== DraftType.INDIVIDUAL ?
+            PICK_ORDER_SIMULTANEOUSLY_BAN[draftSession.pickTurn] :
+            PICK_ORDER_ALTERNATE_BAN[draftSession.pickTurn]
+        }
+        connectedTeam={selectedTeam}
         draftType={type} />
 
       <div id="picks-container" style={styles.picksContainer}>

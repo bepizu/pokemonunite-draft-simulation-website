@@ -12,6 +12,9 @@ export function selectBackgroundPickColor(picked: string) {
     case TeamEnum.TEAM2:
       return '#AF4417'
 
+    case TeamEnum.BOTH:
+      return '#22B'
+
     default:
       return '#220A3D'
   }
@@ -23,6 +26,9 @@ export function selectBackgroundPickOpacity(picked: string) {
       return 0.5
 
     case TeamEnum.TEAM2:
+      return 0.5
+
+    case TeamEnum.BOTH:
       return 0.5
 
     default:
@@ -86,6 +92,8 @@ export function getPickButtonStyle(pokemon: any, screenSize: ScreenSize): CSSPro
 }
 
 export function getPokemonName(pokemon: any, screenSize: ScreenSize): CSSProperties {
+  pokemon.name === "Venusaur" && console.log(pokemon)
+
   return {
     width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
     fontSize: getResponsiveStyleSize(screenSize, { small: 7, large: 13 }),
