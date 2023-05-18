@@ -75,8 +75,8 @@ export default function CountdownContainer(props: CountdownContainerProps) {
 
       {(countdownState.draftStatus === DraftStatus.Started) && (
         <div>
-          <div style={{ fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D" }}>Time {currentTeam} escolhendo</div>
-          <div style={styles.countdownStyle}>{countdownState.countdown}</div>
+          <div style={{ fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D" }}>{currentTeamMessage}</div>
+          <div style={styles(screenSize).countdownStyle}>{countdownState.countdown}</div>
         </div>
       )}
 
