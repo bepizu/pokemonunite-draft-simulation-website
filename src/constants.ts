@@ -12,5 +12,3 @@ export const PICK_ORDER = [
 ]
 
 export const MAX_COUNTDOWN_TIMER = 20
-export const MAX_WIDTH_PKMN_BOX = 100
-export const MAX_HEIGHT_PKMN_BOX = 126

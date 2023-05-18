@@ -10,6 +10,7 @@ import { DraftStatus } from '@/types/DraftStatus';
 import { DraftType } from '../DraftContainer';
 import { getCountdownTimeContainer, styles } from './styles'
 import PickTurn from '@/types/PickTurn';
+import useMediaQueries from '@/hooks/useMediaQueries';
 
 type CountdownContainerProps = {
   pickTurn: PickTurn,
@@ -22,6 +23,7 @@ export default function CountdownContainer(props: CountdownContainerProps) {
   const { pickTurn, currentTeam, connectedTeam, draftType } = props
   const draftSessionState = useSelector(selectDraftSessionState);
   const countdownState = useSelector(selectCountdownState);
+  const screenSize = useMediaQueries()
 
   const router = useRouter()
   const socket = useContext(SocketContext);
@@ -47,31 +49,31 @@ export default function CountdownContainer(props: CountdownContainerProps) {
   }
 
   return (countdownState) ? (
-    <div id='countdown-timer-container' style={getCountdownTimeContainer(pickTurn)}>
+    <div id='countdown-timer-container' style={getCountdownTimeContainer(pickTurn, screenSize)}>
 
       {(countdownState.draftStatus === DraftStatus.NotStarted) && (
         <div>
-          <div style={styles.titleCountdown}>Boas-vindas ao Draft Simulator!</div>
+          <div style={styles(screenSize).titleCountdown}>Bem-vindo ao Draft Simulator!</div>
 
           {(connectedTeam === TeamEnum.TEAM1) ? (
-            <Button style={styles.buttonStyle} onClick={() => startDraft()}>Start Draft</Button>
+            <Button style={styles(screenSize).buttonStyle} onClick={() => startDraft()}>Start Draft</Button>
           ) : <p><em>Aguardando o time {draftSessionState.team1.name} iniciar o draft</em></p>}
         </div>
       )}
 
       {(countdownState.draftStatus === DraftStatus.Started) && (
         <div>
-          <div style={{ fontSize: "24px", lineHeight: "32px", fontFamily: "PT Sans", fontWeight: "400", color: "#220A3D" }}>Time {currentTeam} escolhendo</div>
-          <div style={styles.countdownStyle}>{countdownState.countdown}</div>
+          <div style={styles(screenSize).titleCountdown}>Time {currentTeam} escolhendo</div>
+          <div style={styles(screenSize).countdownStyle}>{countdownState.countdown}</div>
         </div>
       )}
 
       {countdownState.draftStatus === DraftStatus.Finished && (
         <div>
-          <div style={styles.titleCountdown}>Draft completo!</div>
+          <div style={styles(screenSize).titleCountdown}>Draft completo!</div>
 
           {draftType === DraftType.INDIVIDUAL && (
-            <Button style={styles.buttonStyle} onClick={() => {
+            <Button style={styles(screenSize).buttonStyle} onClick={() => {
               if (draftType === DraftType.INDIVIDUAL) {
                 router.reload()
               } else {

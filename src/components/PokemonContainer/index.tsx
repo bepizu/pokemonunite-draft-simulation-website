@@ -8,10 +8,14 @@ import { TeamEnum } from '@/types/Team'
 import { DraftType } from '../DraftContainer'
 import { selectCountdownState } from '@/store/countdownSlice'
 import { DraftStatus } from '@/types/DraftStatus'
+import useWindowSize from '@/hooks/useWindowSize'
+import getResponsiveStyleSize from '@/utils/get-responsive-style-size'
+import useMediaQueries from '@/hooks/useMediaQueries'
 
 type PokemonContainerProps = {
   selectedTeam?: TeamEnum,
 }
+
 
 export default function PokemonContainer(props: PokemonContainerProps) {
 
@@ -22,6 +26,9 @@ export default function PokemonContainer(props: PokemonContainerProps) {
   const [draftSessionId, setDraftSessionId] = useState<string | undefined>()
   const [pokemons, setPokemons] = useState<Pokemon[] | undefined>()
   const [alreadySelected, _] = useState<string[]>([]) // throttle for select pick delay 
+  const { height: windowHeight } = useWindowSize()
+  const screenSize = useMediaQueries()
+  const marginTop = getResponsiveStyleSize(screenSize, { small: 108, large: 155 })
 
   useEffect(() => {
     if (draftSessionState._id) {
@@ -35,7 +42,19 @@ export default function PokemonContainer(props: PokemonContainerProps) {
 
   return (pokemons && draftSessionId && socket) ? (
     <>
-      <div id='pokemon-list-select' className="flex flex-wrap" style={{ width: 813, margin: 'auto', marginTop: '64px', }}>
+      <div
+        id='pokemon-list-select'
+        className="flex flex-wrap hide-scrollbar"
+        style={{
+          justifyContent: 'center',
+          marginTop: -4,
+          marginLeft: getResponsiveStyleSize(screenSize, { small: 9, large: 18 }),
+          marginRight: getResponsiveStyleSize(screenSize, { small: 9, large: 18 }),
+          maxHeight: windowHeight - marginTop,
+          maxWidth: 813,
+          overflowY: 'scroll',
+        }}
+      >
         {pokemons && pokemons.map((pokemon, key) => (
           <div
             onClick={pokemon.picked !== undefined ? () => { } : () => {
@@ -54,10 +73,10 @@ export default function PokemonContainer(props: PokemonContainerProps) {
               ) {
                 alreadySelected.push(pokemon.name as string)
               }
-            }} key={key} style={getPickButtonStyle(pokemon)}>
-            {pokemon.picked !== undefined ? <div style={styles.pickOverlay}></div> : <></>}
-            <div style={getPokemonName(pokemon)}>{pokemon.name}</div>
-            <div className="transform transition-all duration-300 hover:scale-110" style={getPokemonImageStyle(pokemon)} />
+            }} key={key} style={getPickButtonStyle(pokemon, screenSize)}>
+            {pokemon.picked !== undefined ? <div style={styles(screenSize).pickOverlay}></div> : <></>}
+            <div style={getPokemonName(pokemon, screenSize)}>{pokemon.name}</div>
+            <div className="transform transition-all duration-300 hover:scale-110" style={getPokemonImageStyle(pokemon, screenSize)} />
           </div>
         ))}
       </div>

@@ -1,3 +1,5 @@
+import { ScreenSize } from '@/types/ScreenSize'
+import getResponsiveStyleSize from '@/utils/get-responsive-style-size'
 import { CSSProperties } from 'react'
 
 export function getPokemonSelectedImageStyle(image: string): CSSProperties {
@@ -22,10 +24,10 @@ export function selectedPickNameStyle(): CSSProperties {
   }
 }
 
-export function getSelectedPickStyle(): CSSProperties {
+export function getSelectedPickStyle(screenSize: ScreenSize): CSSProperties {
   return {
-    width: 240,
-    height: 100,
+    width: getResponsiveStyleSize(screenSize, { small: 50, medium: 100, large: 240 }),
+    height: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
     backgroundColor: '#00000040',
     borderRadius: 12,
     display: 'flex',
@@ -33,51 +35,50 @@ export function getSelectedPickStyle(): CSSProperties {
   }
 }
 
-export function getSelectedPickFrame(): CSSProperties {
+export function getSelectedPickFrame(screenSize: ScreenSize): CSSProperties {
   return {
-    width: 100,
-    height: 100,
-    borderWidth: 3,
+    width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
+    height: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
+    borderWidth: getResponsiveStyleSize(screenSize, { small: 1, large: 3 }),
     backgroundColor: '#fff',
-    borderRadius: 12,
+    borderRadius: getResponsiveStyleSize(screenSize, { small: 6, large: 12 }),
     zIndex: 99
   }
 }
 
-export function getSelectedPickTrainer(): CSSProperties {
+export function getSelectedPickTrainer(screenSize: ScreenSize): CSSProperties {
   return {
-    display: 'flex',
+    display: screenSize === ScreenSize.LARGE ? 'flex' : 'none',
     flexDirection: 'column'
   }
 }
 
-const styles: Record<string, CSSProperties> = {
+const styles = (screenSize: ScreenSize): Record<string, CSSProperties> => ({
   blueSidePosition: {
-    top: 140,
-    left: 60
+    marginLeft: getResponsiveStyleSize(screenSize, { small: 14, medium: 24, large: 48 })
   },
   redSidePosition: {
-    top: 140,
-    right: 60
+    marginRight: getResponsiveStyleSize(screenSize, { small: 14, medium: 24, large: 48 })
   },
   teamPickContainer: {
-    position: 'absolute',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    gap: 24
+    gap: getResponsiveStyleSize(screenSize, { small: 8, large: 24 }),
   },
   selectedBanStyle: {
-    width: 53,
-    height: 53,
-    top: -85,
+    width: getResponsiveStyleSize(screenSize, { small: 26, large: 53 }),
+    height: getResponsiveStyleSize(screenSize, { small: 26, large: 53 }),
+    top: getResponsiveStyleSize(screenSize, { small: -38, large: -85 }),
     borderColor: '#BE433C',
-    borderWidth: 4,
+    borderWidth: getResponsiveStyleSize(screenSize, { small: 2, large: 4 }),
     backgroundColor: '#52556750',
-    borderRadius: 8,
+    borderRadius: getResponsiveStyleSize(screenSize, { small: 4, large: 8 }),
     position: 'absolute',
     backgroundImage: `url('/icon-ban.svg')`,
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: getResponsiveStyleSize(screenSize, { small: 16, large: 32 }),
   },
   blueSidePositionBan: {
     left: 0,
@@ -98,14 +99,16 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: '#4A1885',
     backgroundImage: `url('/symbol-blue.svg')`,
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '75%',
   },
   redSidePositionFrame: {
     borderColor: '#FADAA2',
     backgroundColor: '#AF4417',
     backgroundImage: `url('/symbol-red.svg')`,
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '75%',
   },
   blueSidePositionTrainer: {
     alignItems: 'flex-start'
@@ -115,17 +118,15 @@ const styles: Record<string, CSSProperties> = {
     textAlign: 'right',
   },
   blueSidePositionName: {
-    marginLeft: -10,
     borderBottomRightRadius: 12,
     backgroundColor: '#C3B4FA',
     paddingLeft: 20
   },
   redSidePositionName: {
-    marginRight: -10,
     borderBottomLeftRadius: 12,
     backgroundColor: '#FADAA2',
     paddingRight: 20
   },
-}
+})
 
 export default styles
