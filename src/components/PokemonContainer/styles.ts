@@ -92,8 +92,6 @@ export function getPickButtonStyle(pokemon: any, screenSize: ScreenSize): CSSPro
 }
 
 export function getPokemonName(pokemon: any, screenSize: ScreenSize): CSSProperties {
-  pokemon.name === "Venusaur" && console.log(pokemon)
-
   return {
     width: getResponsiveStyleSize(screenSize, { small: 50, large: 100 }),
     fontSize: getResponsiveStyleSize(screenSize, { small: 7, large: 13 }),

@@ -1,6 +1,7 @@
 import { DraftType } from '@/components/DraftContainer';
 import { Pokemon } from './Pokemon';
 import { Team } from './Team';
+import { DraftStatus } from './DraftStatus';
 
 type DraftSession = {
   _id?: string,
@@ -10,6 +11,7 @@ type DraftSession = {
   spectator: Spectator,
   pickTurn: number,
   draftType: DraftType,
+  draftStatus?: DraftStatus,
   pokemons?: Pokemon[],
 } & Record<string, any>
 

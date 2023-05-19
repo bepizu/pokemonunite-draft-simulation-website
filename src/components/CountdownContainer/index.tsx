@@ -38,6 +38,12 @@ export default function CountdownContainer(props: CountdownContainerProps) {
   }, [socket])
 
   useEffect(() => {
+    if (draftSessionState && draftSessionState.draftStatus === DraftStatus.Finished) {
+      dispatch(setCountdownState({ draftStatus: draftSessionState.draftStatus, countdown: 20 }))
+    }
+  }, [draftSessionState])
+
+  useEffect(() => {
     if (pickTurn) {
       if (pickTurn.team === TeamEnum.TEAM1) {
         setCurrentTeamMessage(`Time ${draftSessionState.team1.name} escolhendo`)
