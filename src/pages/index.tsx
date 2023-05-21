@@ -20,7 +20,7 @@ export default function Home() {
     spectator: ""
   })
   const [sessionDraftInfo, setSessionDraftInfo] = useState<DraftSession>({
-    lobbyId: "92374923",
+    lobbyId: "",
     team1: {
       name: "Team 1",
       ban1: {},
@@ -43,7 +43,8 @@ export default function Home() {
     spectator: {
       active: false
     },
-    pickTurn: 0
+    pickTurn: 0,
+    connections: { team1: '', team2: '' },
   })
 
   async function createSession() {
