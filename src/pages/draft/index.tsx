@@ -15,7 +15,6 @@ export default function IndividualDraft() {
   useEffect(() => {
     if (socket) {
       socket.emit('enter-draft', {
-        sessionId: uuidv4(),
         viewType: TeamEnum.TEAM1,
         draftType: DraftType.INDIVIDUAL,
         id: socket.id
